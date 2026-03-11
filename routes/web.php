@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\Admins\AuthController;
+use App\Controllers\Admins\CategoryController;
 use App\Controllers\Admins\UserController;
 use App\Controllers\Users\HomeController;
 use Bramus\Router\Router;
@@ -15,6 +16,15 @@ $router->get('user/edit/{userId}', UserController::class . '@showEditUser');
 $router->post('user/update', UserController::class . '@updateUser');
 $router->get('user/delete/{userId}', UserController::class . '@deleteUser');
 $router->post('users/delete', UserController::class . '@deleteUser');
+
+// Đây là nơi khai báo các route cho Category
+$router->get('categories', CategoryController::class . '@getAllCategories');
+$router->get('category/create', CategoryController::class . '@showCreateCategory');
+$router->post('category/insert', CategoryController::class . '@insertCategory');
+$router->get('category/edit/{categoryId}', CategoryController::class . '@showEditCategory');
+$router->post('category/update', CategoryController::class . '@updateCategory');
+$router->get('category/delete/{categoryId}', CategoryController::class . '@deleteCategory');
+$router->post('categories/delete', CategoryController::class . '@deleteCategory');
 
 // Đây là nơi khai báo các route cho Authentication
 $router->get('login', AuthController::class . '@showLoginView');
