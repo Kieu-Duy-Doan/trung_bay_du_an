@@ -62,7 +62,7 @@ class AuthController extends Controller
                 $error = 'Email hoặc mật khẩu không chính xác';
                 return view('adminViews.auths.login', compact('error'));
             } else {
-                redirect('users/page/1');
+                redirect('users');
             }
         } catch (\Throwable $th) {
             echo $th->getMessage();

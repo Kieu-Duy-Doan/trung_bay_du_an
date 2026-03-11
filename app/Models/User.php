@@ -26,7 +26,12 @@ class User extends Model
         $keyword = $options['keyword'] ?? '';
 
         $queryBuilder = $this->connection->createQueryBuilder();
-        $stmt = $queryBuilder->select('*')->from('users')->setFirstResult($offset)->setMaxResults($limit)->orderBy($sort, $order);
+
+        if ($limit == 0) {
+            $stmt = $queryBuilder->select('*')->from('users');
+        } else {
+            $stmt = $queryBuilder->select('*')->from('users')->setFirstResult($offset)->setMaxResults($limit)->orderBy($sort, $order);
+        }
 
         if ($keyword) {
             $stmt->where("name LIKE :value")->orWhere('email LIKE :value')->setParameters([
