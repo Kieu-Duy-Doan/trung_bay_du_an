@@ -4,15 +4,18 @@ namespace App\Controllers\Admins;
 
 use App\Controller;
 use App\Models\Category;
+use App\Models\Project;
 use Exception;
 
-class CategoryController extends Controller
+class ProjectController extends Controller
 {
+    private $projectModel;
     private $categoryModel;
 
     public function __construct()
     {
         parent::__construct();
+        $this->projectModel = new Project();
         $this->categoryModel = new Category();
     }
 
@@ -20,10 +23,14 @@ class CategoryController extends Controller
     {
         $rules = [
             'name' => 'required',
+            'description' => 'required',
+            'category_id' => 'required',
         ];
 
         $this->validator->setMessages([
             'name:required' => 'Vui lòng nhập tên',
+            'description:required' => 'Vui lòng nhập mô tả',
+            'category_id:required' => 'Vui lòng chọn danh mục',
         ]);
 
         $errors = $this->validate($this->validator, $data, $rules);
@@ -34,15 +41,19 @@ class CategoryController extends Controller
     private function getAndCreateFormData()
     {
         $name = htmlspecialchars($_POST['name']);
+        $description = htmlspecialchars($_POST['description']);
+        $categoryId = htmlspecialchars($_POST['category_id']);
 
         $data = [
             'name' => $name,
+            'description' => $description,
+            'category_id' => $categoryId,
         ];
 
         return $data;
     }
 
-    public function getAllCategories()
+    public function getAllProjects()
     {
         try {
             if (!isset($_SESSION['myAcc'])) {
@@ -54,7 +65,7 @@ class CategoryController extends Controller
             $order = $_GET['order'] ?? 'ASC';
             $page = $_GET['page'] ?? 1;
 
-            $totalUsers = $this->categoryModel->countAll();
+            $totalUsers = $this->projectModel->countAll();
 
             $limit = $_ENV['LIMIT'];
 
@@ -63,7 +74,7 @@ class CategoryController extends Controller
             $offset = ((int)$page - 1) * $limit;
 
             if ($keyword) {
-                $totalUsers = $this->categoryModel->countAll(
+                $totalUsers = $this->projectModel->countAll(
                     [
                         'keyword' => $keyword,
                     ]
@@ -76,7 +87,7 @@ class CategoryController extends Controller
                 $offset = ((int)$page - 1) * $limit;
 
 
-                $categories = $this->categoryModel->getAll([
+                $projects = $this->projectModel->getAll([
                     'offset' => (int)$offset,
                     'limit' => (int)$limit,
                     'order' => $order,
@@ -84,7 +95,7 @@ class CategoryController extends Controller
                     'keyword' => $keyword
                 ]);
             } else {
-                $categories = $this->categoryModel->getAll([
+                $projects = $this->projectModel->getAll([
                     'offset' => (int)$offset,
                     'limit' => (int)$limit,
                     'order' => $order,
@@ -92,18 +103,19 @@ class CategoryController extends Controller
                 ]);
             }
 
-            return view('adminViews.categories.index', compact('categories', 'totalPage', 'page', 'sort', 'order', 'keyword'));
+            return view('adminViews.projects.index', compact('projects', 'totalPage', 'page', 'sort', 'order', 'keyword'));
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }
     }
 
-    public function showCreateCategory()
+    public function showCreateProject()
     {
-        return view('adminViews.categories.create');
+        $categories = $this->categoryModel->getAll();
+        return view('adminViews.projects.create', compact('categories'));
     }
 
-    public function insertCategory()
+    public function insertProject()
     {
         try {
             $rawData = $this->getAndCreateFormData();
@@ -111,58 +123,57 @@ class CategoryController extends Controller
             $errors = $this->validateData($rawData);
 
             if (count($errors) > 0) {
-                return view('adminViews.categories.create', compact('errors'));
+                $categories = $this->categoryModel->getAll();
+                return view('adminViews.projects.create', compact('errors', 'categories'));
             }
 
             if (is_upload('img')) {
-                $img = $this->uploadFile($_FILES['img'], 'categories');
+                $img = $this->uploadFile($_FILES['img'], 'projects');
             } else {
                 $img = null;
             }
 
 
-            $data = [
-                'name' => $rawData['name'],
-                'img' => $img,
-            ];
+            $data = [...$rawData, 'img' => $img];
 
-            $result = $this->categoryModel->insert($data);
+            $result = $this->projectModel->insert($data);
 
             if ($result > 0) {
-                $_SESSION['success'] = 'Thêm tài khoản thành công!';
-                redirect('categories');
+                $_SESSION['success'] = 'Thêm dự án thành công!';
+                redirect('projects');
             }
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }
     }
 
-    public function showEditCategory($categoryId)
+    public function showEditProject($projectId)
     {
-        $category = $this->categoryModel->getById($categoryId);
-        return view('adminViews.categories.edit', compact('category'));
+        $project = $this->projectModel->getById($projectId);
+        $categories = $this->categoryModel->getAll();
+        return view('adminViews.projects.edit', compact('project', 'categories'));
     }
 
-    public function updateCategory()
+    public function updateProject()
     {
         try {
             $rawData = $this->getAndCreateFormData();
 
             $errors = $this->validateData($rawData);
 
-            $category = $this->categoryModel->getById($_POST['id']);
+            $project = $this->projectModel->getById($_POST['id']);
 
             if (count($errors) > 0) {
-                return view('adminViews.categories.edit', compact('errors', 'category'));
+                return view('adminViews.projects.edit', compact('errors', 'category'));
             }
 
             if (is_upload('img')) {
-                $img = $this->uploadFile($_FILES['img'], 'categories');
-                if (file_exists(BASE_URL . $category['img'])) {
-                    unlink(BASE_URL . $category['img']);
+                $img = $this->uploadFile($_FILES['img'], 'projects');
+                if (file_exists(BASE_URL . $project['img'])) {
+                    unlink(BASE_URL . $project['img']);
                 }
             } else {
-                $img = $category['img'];
+                $img = $project['img'];
             }
 
             $data = [
@@ -174,34 +185,34 @@ class CategoryController extends Controller
                 'id' => $_POST['id']
             ];
 
-            $result = $this->categoryModel->update($data, $where);
+            $result = $this->projectModel->update($data, $where);
 
             if ($result > 0) {
                 $_SESSION['success'] = 'Sửa thành công!';
-                redirect('categories');
+                redirect('projects');
             }
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }
     }
 
-    public function deleteCategory($categoryId = false)
+    public function deleteProject($categoryId = false)
     {
         try {
             if ($categoryId) {
-                $category = $this->categoryModel->getById($categoryId);
+                $category = $this->projectModel->getById($categoryId);
                 $where = [
                     'id' => $categoryId,
                 ];
 
-                $result = $this->categoryModel->delete($where);
+                $result = $this->projectModel->delete($where);
 
                 if ($result > 0) {
                     if (file_exists(BASE_URL . $category['img'])) {
                         unlink(BASE_URL . $category['img']);
                     }
                     $_SESSION['success'] = 'Xóa thành công';
-                    redirect('categories');
+                    redirect('projects');
                 }
             }
 
@@ -209,13 +220,13 @@ class CategoryController extends Controller
             $count = 0;
 
             foreach ($_POST['ids'] as $id) {
-                $category = $this->categoryModel->getById($id);
+                $category = $this->projectModel->getById($id);
                 if (!empty($category)) {
                     $where = [
                         'id' => $id,
                     ];
 
-                    $result = $this->categoryModel->delete($where);
+                    $result = $this->projectModel->delete($where);
 
                     if ($result > 0) {
                         if (file_exists(BASE_URL . $category['img'])) {
@@ -232,7 +243,7 @@ class CategoryController extends Controller
 
             if ($count == $totalIds) {
                 $_SESSION['success'] = 'Xóa thành công';
-                redirect('categories');
+                redirect('projects');
             } else {
                 echo $count;
                 echo $totalIds;

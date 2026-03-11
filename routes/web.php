@@ -2,6 +2,7 @@
 
 use App\Controllers\Admins\AuthController;
 use App\Controllers\Admins\CategoryController;
+use App\Controllers\Admins\ProjectController;
 use App\Controllers\Admins\UserController;
 use App\Controllers\Users\HomeController;
 use Bramus\Router\Router;
@@ -25,6 +26,15 @@ $router->get('category/edit/{categoryId}', CategoryController::class . '@showEdi
 $router->post('category/update', CategoryController::class . '@updateCategory');
 $router->get('category/delete/{categoryId}', CategoryController::class . '@deleteCategory');
 $router->post('categories/delete', CategoryController::class . '@deleteCategory');
+
+// Đây là nơi khai báo các route cho Projects
+$router->get('projects', ProjectController::class . '@getAllProjects');
+$router->get('project/create', ProjectController::class . '@showCreateProject');
+$router->post('project/insert', ProjectController::class . '@insertProject');
+$router->get('project/edit/{projectId}', ProjectController::class . '@showEditProject');
+$router->post('project/update', ProjectController::class . '@updateProject');
+$router->get('project/delete/{projectId}', ProjectController::class . '@deleteProject');
+$router->post('projects/delete', ProjectController::class . '@deleteProject');
 
 // Đây là nơi khai báo các route cho Authentication
 $router->get('login', AuthController::class . '@showLoginView');
