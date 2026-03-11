@@ -2,12 +2,13 @@
 
 namespace App;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 
 class Model
 {
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct()
     {
@@ -29,6 +30,6 @@ class Model
 
     public function __destruct()
     {
-        $this->connection = null;
+        // $this->connection = null;
     }
 }

@@ -52,10 +52,12 @@ if (!function_exists('file_url')) {
 }
 
 if (!function_exists('debug')) {
-    function debug(...$data)
+    function debug($data)
     {
         echo '<pre>';
+        // echo $data;
         print_r($data);
+        // var_dump($data);
         die;
     }
 }

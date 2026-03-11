@@ -1,8 +1,18 @@
 <?php
+
 namespace App;
+
+use Rakit\Validation\Validator;
 
 class Controller
 {
+    protected $validator;
+
+    public function __construct()
+    {
+        $this->validator = new Validator();
+    }
+
     public function validate($validator, $data, $rules)
     {
         $validation = $validator->make($data, $rules);
