@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .nav-item.active>.nav-link {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,22 +26,28 @@
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse vh-100">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
-                        <li class="nav-item">
+                        <li class="nav-item {{ str_contains($_SERVER['REQUEST_URI'], 'users') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('users') }}">
                                 <i class="fa-regular fa-user"></i>
                                 Quản lý người dùng
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {{ str_contains($_SERVER['REQUEST_URI'], 'categories') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('categories') }}">
                                 <i class="fa-solid fa-list"></i>
                                 Quản lý danh mục
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {{ str_contains($_SERVER['REQUEST_URI'], 'projects') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('projects') }}">
                                 <i class="fa-solid fa-address-book"></i>
                                 Quản lý dự án
+                            </a>
+                        </li>
+                        <li class="nav-item {{ str_contains($_SERVER['REQUEST_URI'], 'teams') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('teams') }}">
+                                <i class="fa-solid fa-users"></i>
+                                Quản lý teams
                             </a>
                         </li>
                     </ul>

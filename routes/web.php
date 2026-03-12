@@ -3,6 +3,7 @@
 use App\Controllers\Admins\AuthController;
 use App\Controllers\Admins\CategoryController;
 use App\Controllers\Admins\ProjectController;
+use App\Controllers\Admins\TeamController;
 use App\Controllers\Admins\UserController;
 use App\Controllers\Users\HomeController;
 use Bramus\Router\Router;
@@ -35,6 +36,15 @@ $router->get('project/edit/{projectId}', ProjectController::class . '@showEditPr
 $router->post('project/update', ProjectController::class . '@updateProject');
 $router->get('project/delete/{projectId}', ProjectController::class . '@deleteProject');
 $router->post('projects/delete', ProjectController::class . '@deleteProject');
+
+// Đây là nơi khai báo các route cho Teams
+$router->get('teams', TeamController::class . '@getAllTeams');
+$router->get('team/create', TeamController::class . '@showCreateTeam');
+$router->post('team/insert', TeamController::class . '@insertTeam');
+$router->get('team/edit/{teamId}', TeamController::class . '@showEditTeam');
+$router->post('team/update', TeamController::class . '@updateTeam');
+$router->get('team/delete/{teamId}', TeamController::class . '@deleteTeam');
+$router->post('teams/delete', TeamController::class . '@deleteTeam');
 
 // Đây là nơi khai báo các route cho Authentication
 $router->get('login', AuthController::class . '@showLoginView');
