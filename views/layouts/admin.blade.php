@@ -50,6 +50,12 @@
                                 Quản lý teams
                             </a>
                         </li>
+                        <li class="nav-item {{ str_contains($_SERVER['REQUEST_URI'], 'members') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('members') }}">
+                                <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+                                Quản lý thành viên
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>

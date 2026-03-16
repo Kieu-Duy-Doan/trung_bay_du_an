@@ -2,6 +2,7 @@
 
 use App\Controllers\Admins\AuthController;
 use App\Controllers\Admins\CategoryController;
+use App\Controllers\Admins\MemberController;
 use App\Controllers\Admins\ProjectController;
 use App\Controllers\Admins\TeamController;
 use App\Controllers\Admins\UserController;
@@ -45,6 +46,15 @@ $router->get('team/edit/{teamId}', TeamController::class . '@showEditTeam');
 $router->post('team/update', TeamController::class . '@updateTeam');
 $router->get('team/delete/{teamId}', TeamController::class . '@deleteTeam');
 $router->post('teams/delete', TeamController::class . '@deleteTeam');
+
+// Đây là nơi khai báo các route cho Members
+$router->get('members', MemberController::class . '@getAllMembers');
+$router->get('member/create', MemberController::class . '@showCreateMember');
+$router->post('member/insert', MemberController::class . '@insertMember');
+$router->get('member/edit/{teamId}', MemberController::class . '@showEditMember');
+$router->post('member/update', MemberController::class . '@updateMember');
+$router->get('member/delete/{teamId}', MemberController::class . '@deleteMember');
+$router->post('members/delete', MemberController::class . '@deleteMember');
 
 // Đây là nơi khai báo các route cho Authentication
 $router->get('login', AuthController::class . '@showLoginView');
