@@ -51,12 +51,12 @@
             unset($_SESSION['success']);
         @endphp
     @endif
-    <form id="formDelete" action="{{ route('teams/delete') }}" method="post">
+    <form class="checkBoxHandler" id="formDelete" action="{{ route('teams/delete') }}" method="post">
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">
-                        <input type="checkbox" id="checkAll">
+                        <input class="checkAll" type="checkbox">
                     </th>
                     <th scope="col">ID</th>
                     <th scope="col">Tên team</th>
@@ -79,6 +79,9 @@
                         </td>
                         <td>
                             <a href="{{ route('team/edit/' . $team['id']) }}" class="btn btn-primary me-3">Sửa</a>
+                            <a href="{{ route('team/detail/' . $team['id']) }}" class="btn btn-primary me-3">
+                                Xem chi tiết
+                            </a>
                             <a onclick="return confirm('Bạn có chắc chắn muốn xóa!')"
                                 href="{{ route('team/delete/' . $team['id']) }}" class="btn btn-danger me-3">Xóa</a>
                         </td>
@@ -86,7 +89,7 @@
                 @endforeach
             </tbody>
         </table>
-        <button id="btnDeleteAll" class="btn btn-danger">
+        <button id="btnDeleteAll" class="btn btn-danger btnDeleteAll">
             Xóa tất cả
         </button>
     </form>

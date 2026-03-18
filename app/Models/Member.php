@@ -24,13 +24,18 @@ class Member extends Model
         $order = $options['order'] ?? 'ASC';
         $sort = $options['sort'] ?? 'id';
         $keyword = $options['keyword'] ?? '';
+        $condition = $options['condition'] ?? false;
 
         $queryBuilder = $this->connection->createQueryBuilder();
 
         if ($limit == 0) {
-            $stmt = $queryBuilder->select('*')->from('members');
+            $stmt = $queryBuilder->select('m.*', 't.name as team_name')->from('members', 'm')->leftJoin('m', 'teams', 't', 'm.team_id=t.id')->setFirstResult($offset)->orderBy($sort, $order);
         } else {
             $stmt = $queryBuilder->select('m.*', 't.name as team_name')->from('members', 'm')->leftJoin('m', 'teams', 't', 'm.team_id=t.id')->setFirstResult($offset)->setMaxResults($limit)->orderBy($sort, $order);
+        }
+
+        if ($condition) {
+            $stmt->where($condition);
         }
 
         if ($keyword) {
@@ -63,5 +68,16 @@ class Member extends Model
     public function delete($where)
     {
         return $this->connection->delete('members', $where);
+    }
+
+    public function updateTeamID($memberID, $teamID)
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $stmt = $queryBuilder->update('members')
+            ->set('team_id', ':team_id')
+            ->where('id = :id')
+            ->setParameter('team_id', $teamID)
+            ->setParameter('id', $memberID);
+        return $stmt->executeStatement();
     }
 }

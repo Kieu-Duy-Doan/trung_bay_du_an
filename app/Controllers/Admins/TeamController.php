@@ -3,17 +3,20 @@
 namespace App\Controllers\Admins;
 
 use App\Controller;
+use App\Models\Member;
 use App\Models\Team;
 use Exception;
 
 class TeamController extends Controller
 {
     private $teamModel;
+    private $memberModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->teamModel = new Team();
+        $this->memberModel = new Member();
     }
 
     private function validateData($data)
@@ -105,6 +108,18 @@ class TeamController extends Controller
     public function showCreateTeam()
     {
         return view('adminViews.teams.create');
+    }
+
+    public function showDetailView($teamId)
+    {
+        $team = $this->teamModel->getById($teamId);
+        $membersWithoutTeam = $this->memberModel->getAll([
+            'condition' => 'm.team_id IS NULL'
+        ]);
+        $memberOfTeams = $this->memberModel->getAll([
+            'condition' => "m.team_id = $teamId"
+        ]);
+        return view('adminViews.teams.detail', compact('team', 'membersWithoutTeam', 'memberOfTeams'));
     }
 
     public function insertTeam()

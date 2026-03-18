@@ -46,6 +46,7 @@ $router->get('team/edit/{teamId}', TeamController::class . '@showEditTeam');
 $router->post('team/update', TeamController::class . '@updateTeam');
 $router->get('team/delete/{teamId}', TeamController::class . '@deleteTeam');
 $router->post('teams/delete', TeamController::class . '@deleteTeam');
+$router->get('team/detail/{teamId}', TeamController::class . '@showDetailView');
 
 // Đây là nơi khai báo các route cho Members
 $router->get('members', MemberController::class . '@getAllMembers');
@@ -55,6 +56,7 @@ $router->get('member/edit/{teamId}', MemberController::class . '@showEditMember'
 $router->post('member/update', MemberController::class . '@updateMember');
 $router->get('member/delete/{teamId}', MemberController::class . '@deleteMember');
 $router->post('members/delete', MemberController::class . '@deleteMember');
+$router->post('member/updateTeam', MemberController::class . '@updateTeamMember');
 
 // Đây là nơi khai báo các route cho Authentication
 $router->get('login', AuthController::class . '@showLoginView');

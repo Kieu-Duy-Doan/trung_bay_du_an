@@ -251,4 +251,26 @@ class MemberController extends Controller
             echo $th->getMessage();
         }
     }
+
+    public function updateTeamMember()
+    {
+        try {
+            $totalIds = count($_POST['ids']);
+            $count = 0;
+            $teamId = $_POST['team_id'] ?? NULL;
+            foreach ($_POST['ids'] as $id) {
+                $result = $this->memberModel->updateTeamID($id, $teamId);
+                if ($result > 0) {
+                    ++$count;
+                }
+            }
+
+            if ($totalIds == $count) {
+                $_SESSION['success'] = 'Thao tác thành công';
+                redirect('teams');
+            }
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
+    }
 }
