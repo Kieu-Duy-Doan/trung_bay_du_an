@@ -1,11 +1,13 @@
 <?php
 
 use App\Controllers\Admins\AuthController;
+use App\Controllers\Admins\BannerController;
 use App\Controllers\Admins\CategoryController;
 use App\Controllers\Admins\MemberController;
 use App\Controllers\Admins\ProjectController;
 use App\Controllers\Admins\TeamController;
 use App\Controllers\Admins\UserController;
+use App\Controllers\Users\ContactController;
 use App\Controllers\Users\HomeController;
 use Bramus\Router\Router;
 
@@ -58,6 +60,16 @@ $router->get('member/delete/{teamId}', MemberController::class . '@deleteMember'
 $router->post('members/delete', MemberController::class . '@deleteMember');
 $router->post('member/updateTeam', MemberController::class . '@updateTeamMember');
 
+// Đây là nơi khai báo các route cho Banners
+$router->get('banners', BannerController::class . '@getAllBanners');
+$router->get('banner/create', BannerController::class . '@showCreateBanner');
+$router->post('banner/insert', BannerController::class . '@insertBanner');
+$router->get('banner/edit/{bannerId}', BannerController::class . '@showEditBanner');
+$router->post('banner/update', BannerController::class . '@updateBanner');
+$router->get('banner/delete/{bannerId}', BannerController::class . '@deleteBanner');
+$router->post('banners/delete', BannerController::class . '@deleteBanner');
+$router->get('banner/update', BannerController::class . '@updateBannerOneColumn');
+
 // Đây là nơi khai báo các route cho Authentication
 $router->get('login', AuthController::class . '@showLoginView');
 $router->get('logout', AuthController::class . '@logoutUser');
@@ -66,6 +78,7 @@ $router->post('login', AuthController::class . '@loginUser');
 // ------------------------
 // Bên user view
 $router->get('home', HomeController::class . '@showHome');
+$router->get('contact', ContactController::class . '@showContact');
 
 // xử lý không có đường dẫn nào trùng
 // $router->set404(function () {

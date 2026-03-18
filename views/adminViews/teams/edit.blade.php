@@ -17,10 +17,10 @@
                     <textarea id="floatingTextarea2" class="form-control {{ isset($errors['description']) ? 'is-invalid' : '' }}"
                         placeholder="Viết mô tả" style="height: 100px" name="description">{{ $team['description'] }}</textarea>
                     <label for="floatingTextarea2">Mô tả đội nhóm</label>
+                    @if (isset($errors['description']))
+                        <div class="invalid-feedback">{{ $errors['description'] }}</div>
+                    @endif
                 </div>
-                @if (isset($errors['description']))
-                    <div class="text-danger">{{ $errors['description'] }}</div>
-                @endif
             </div>
             <div class="mb-3">
                 <label for="formFile" class="form-label">Ảnh đội nhóm</label>

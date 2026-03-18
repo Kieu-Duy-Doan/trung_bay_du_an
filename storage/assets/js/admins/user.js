@@ -1,7 +1,5 @@
 const checkBoxHandlers = document.querySelectorAll(".checkBoxHandler");
 
-console.log(checkBoxHandlers);
-
 checkBoxHandlers.forEach(function (checkBoxHandler) {
     const allCheckBoxs = checkBoxHandler.querySelectorAll(".checkbox");
     const totalCheckBox = allCheckBoxs.length;

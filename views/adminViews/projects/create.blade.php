@@ -27,10 +27,10 @@
                     <textarea id="floatingTextarea2" class="form-control {{ isset($errors['description']) ? 'is-invalid' : '' }}"
                         placeholder="Viết mô tả" style="height: 100px" name="description"></textarea>
                     <label for="floatingTextarea2">Mô tả dự án</label>
+                    @if (isset($errors['description']))
+                        <div class="invalid-feedback">{{ $errors['description'] }}</div>
+                    @endif
                 </div>
-                @if (isset($errors['description']))
-                    <div class="invalid-feedback">{{ $errors['description'] }}</div>
-                @endif
             </div>
             <div class="mb-3">
                 <label for="formFile" class="form-label">Ảnh dự án</label>

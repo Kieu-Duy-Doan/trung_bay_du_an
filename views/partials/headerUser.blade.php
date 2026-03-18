@@ -9,19 +9,22 @@
         <nav style="visibility: unset" class="collapse navbar-collapse" id="navbarNav" aria-label="Main navigation">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#home">Trang chủ</a>
+                    <a class="nav-link {{ $active == 'home' ? 'active' : '' }}" href="{{ route('home') }}">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#products">Sản phẩm</a>
+                    <a class="nav-link {{ $active == 'products' ? 'active' : '' }}" href="{{ route('home') }}">Sản
+                        phẩm</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#team">Đội ngũ</a>
+                    <a class="nav-link {{ $active == 'teams' ? 'active' : '' }}" href="{{ route('home') }}">Đội ngũ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#about">Giới thiệu</a>
+                    <a class="nav-link {{ $active == 'introduction' ? 'active' : '' }}" href="{{ route('home') }}">Giới
+                        thiệu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#contact">Liên hệ</a>
+                    <a class="nav-link {{ $active == 'contact' ? 'active' : '' }}" href="{{ route('contact') }}">Liên
+                        hệ</a>
                 </li>
             </ul>
         </nav>

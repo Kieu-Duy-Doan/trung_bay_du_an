@@ -57,6 +57,18 @@
                                 Quản lý thành viên
                             </a>
                         </li>
+                        <li class="nav-item {{ str_contains($_SERVER['REQUEST_URI'], 'banners') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('banners') }}">
+                                <i class="fa-solid fa-flag"></i>
+                                Quản lý banner
+                            </a>
+                        </li>
+                        <li class="nav-item {{ str_contains($_SERVER['REQUEST_URI'], 'contacts') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('contacts') }}">
+                                <i class="fa-solid fa-address-book"></i>
+                                Quản lý liên hệ
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>

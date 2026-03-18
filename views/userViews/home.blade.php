@@ -1,91 +1,40 @@
 @extends('layouts.user')
 
+@section('link_css')
+    <link rel="stylesheet" href="{{ route('storage/assets/css/baseUser.css') }}" />
+@endsection
+
 @section('content')
     <section class="hero-section" id="home">
-        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
-                    aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                @for ($i = 0; $i < count($bannerActives); $i++)
+                    @if ($i == 0)
+                        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="{{ $i }}"
+                            class="active"></button>
+                    @else
+                        <button type="button" data-bs-target="#bannerCarousel"
+                            data-bs-slide-to="{{ $i }}"></button>
+                    @endif
+                @endfor
             </div>
             <div class="carousel-inner">
-                <div class="carousel-item active slide-1">
-                    <div class="floating-shapes">
-                        <div class="shape shape-1"></div>
-                        <div class="shape shape-2"></div>
-                        <div class="shape shape-3"></div>
-                        <div class="shape shape-4"></div>
-                    </div>
-                    <div class="carousel-caption">
-                        <h1 class="hero-title" id="hero-title">
-                            Giải Pháp Công Nghệ Đột Phá
-                        </h1>
-                        <p class="hero-subtitle" id="hero-subtitle">
-                            Kiến tạo tương lai số với những sản phẩm và
-                            dịch vụ CNTT hàng đầu
-                        </p>
-                        <a href="#products" class="btn btn-hero btn-hero-primary me-3">
-                            <i class="bi bi-rocket-takeoff me-2"></i>Khám phá ngay
-                        </a>
-                        <a href="#contact" class="btn btn-hero btn-hero-outline">
-                            <i class="bi bi-chat-dots me-2"></i>Liên hệ
-                            tư vấn
-                        </a>
-                    </div>
-                </div>
-                <div class="carousel-item slide-2">
-                    <div class="floating-shapes">
-                        <div class="shape shape-1"></div>
-                        <div class="shape shape-2"></div>
-                        <div class="shape shape-3"></div>
-                        <div class="shape shape-4"></div>
-                    </div>
-                    <div class="carousel-caption">
-                        <h1 class="hero-title">
-                            Đội Ngũ Chuyên Gia Hàng Đầu
-                        </h1>
-                        <p class="hero-subtitle">
-                            Hơn 50 kỹ sư công nghệ với kinh nghiệm đa
-                            dạng và sáng tạo
-                        </p>
-                        <a href="#team" class="btn btn-hero btn-hero-primary me-3">
-                            <i class="bi bi-people me-2"></i>Gặp gỡ Team
-                        </a>
-                        <a href="#about" class="btn btn-hero btn-hero-outline">
-                            <i class="bi bi-info-circle me-2"></i>Tìm
-                            hiểu thêm
-                        </a>
-                    </div>
-                </div>
-                <div class="carousel-item slide-3">
-                    <div class="floating-shapes">
-                        <div class="shape shape-1"></div>
-                        <div class="shape shape-2"></div>
-                        <div class="shape shape-3"></div>
-                        <div class="shape shape-4"></div>
-                    </div>
-                    <div class="carousel-caption">
-                        <h1 class="hero-title">Đối Tác Tin Cậy</h1>
-                        <p class="hero-subtitle">
-                            Đồng hành cùng hơn 500+ doanh nghiệp trong
-                            chuyển đổi số
-                        </p>
-                        <a href="#products" class="btn btn-hero btn-hero-primary me-3">
-                            <i class="bi bi-graph-up-arrow me-2"></i>Xem
-                            dự án
-                        </a>
-                        <a href="#contact" class="btn btn-hero btn-hero-outline">
-                            <i class="bi bi-telephone me-2"></i>Hotline
-                            24/7
-                        </a>
-                    </div>
-                </div>
+                @for ($i = 0; $i < count($bannerActives); $i++)
+                    @if ($i == 0)
+                        <div class="carousel-item active">
+                            <img src="{{ route($bannerActives[$i]['img']) }}" alt="">
+                        </div>
+                    @else
+                        <div class="carousel-item">
+                            <img src="{{ route($bannerActives[$i]['img']) }}" alt="">
+                        </div>
+                    @endif
+                @endfor
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
                 <span class="carousel-control-next-icon"></span>
             </button>
         </div>
