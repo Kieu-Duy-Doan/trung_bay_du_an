@@ -51,19 +51,17 @@
                     </div>
                 </div>
             </div>
+            {{-- Hiển thị thông báo --}}
+            @if (isset($_SESSION['success']))
+                <div class="alert alert-success mt-3" role="alert">
+                    {{ $_SESSION['success'] }}
+                </div>
+                @php
+                    unset($_SESSION['success']);
+                @endphp
+            @endif
             <!-- Members Without Group Section -->
             <div class="info-card p-4 mb-3">
-                {{-- <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                    <div class="d-flex align-items-center gap-2">
-                        <h5 class="fw-bold mb-0" style="color: #212529">
-                            Thành viên nhóm
-                        </h5>
-                        <span class="badge-count" id="memberCount">{{ count($memberOfTeams) }}</span>
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <span class="select-all-link" id="selectAllBtn">Chọn tất cả</span>
-                    </div>
-                </div> --}}
                 <!-- Member List -->
                 <form class="checkBoxHandler" action="{{ route('member/updateTeam') }}" method="post">
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">

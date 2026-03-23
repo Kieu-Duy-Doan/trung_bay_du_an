@@ -60,4 +60,11 @@ class Controller
 
         throw new \Exception('Lỗi upload file!');
     }
+
+    public function getCurrentRoute()
+    {
+        $currentURL = $_SERVER['HTTP_REFERER'];
+        $route = str_replace($_ENV['APP_URL'], '', $currentURL);
+        return $route;
+    }
 }

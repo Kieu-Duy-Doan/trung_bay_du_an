@@ -62,6 +62,7 @@
                     <th scope="col">Tên banner</th>
                     <th scope="col">Hình ảnh</th>
                     <th scope="col">Mô tả</th>
+                    <th scope="col">Link liên kết</th>
                     <th scope="col">Trạng thái</th>
                     <th scope="col">Hành động</th>
                 </tr>
@@ -78,6 +79,7 @@
                             <img src="{{ route($banner['img']) }}" alt="" width="100px" height="100px">
                         </td>
                         <td>{{ $banner['description'] }}</td>
+                        <td>{{ $banner['link'] }}</td>
                         <td>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" {{ $banner['active'] == 1 ? 'checked' : '' }}

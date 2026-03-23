@@ -13,6 +13,14 @@
                 @endif
             </div>
             <div class="mb-3">
+                <label class="form-label">Link liên kết banner</label>
+                <input type="text" class="form-control {{ isset($errors['link']) ? 'is-invalid' : '' }}" name="link"
+                    value="{{ $banner['link'] }}">
+                @if (isset($errors['link']))
+                    <div class="invalid-feedback">{{ $errors['link'] }}</div>
+                @endif
+            </div>
+            <div class="mb-3">
                 <div class="form-floating">
                     <textarea id="floatingTextarea2" class="form-control {{ isset($errors['description']) ? 'is-invalid' : '' }}"
                         placeholder="Viết mô tả" style="height: 100px" name="description">{{ $banner['description'] }}</textarea>

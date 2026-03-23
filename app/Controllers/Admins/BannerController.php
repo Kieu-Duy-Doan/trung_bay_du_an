@@ -21,6 +21,7 @@ class BannerController extends Controller
         $rules = [
             'name' => 'required',
             'description' => 'required',
+            'link' => 'required',
             'img' => 'required|uploaded_file:0,5M,png,jpg,jpeg,gif,webp',
         ];
 
@@ -30,6 +31,7 @@ class BannerController extends Controller
 
         $this->validator->setMessages([
             'name:required' => 'Vui lòng nhập tên',
+            'name:link' => 'Vui lòng nhập link liên kết',
             'description:required' => 'Vui lòng nhập mô tả',
             'img:required' => 'Vui lòng chọn ảnh',
             'img:uploaded_file' => 'Chỉ chấp nhận ảnh dạng png, jpeg',
@@ -44,12 +46,14 @@ class BannerController extends Controller
     {
         $name = htmlspecialchars($_POST['name']);
         $description = htmlspecialchars($_POST['description']);
+        $link = htmlspecialchars($_POST['link']);
         $active = $_POST['active'] ?? 0;
         $img = $_FILES['img'];
 
         $data = [
             'name' => $name,
             'description' => $description,
+            'link' => $link,
             'active' => $active,
             'img' => $img,
         ];
@@ -122,7 +126,6 @@ class BannerController extends Controller
     {
         try {
             $rawData = $this->getAndCreateFormData();
-
             $errors = $this->validateData($rawData);
 
 
@@ -258,6 +261,8 @@ class BannerController extends Controller
     public function updateBannerOneColumn()
     {
         try {
+            $currentUrl = $_SERVER['HTTP_REFERER'];
+            $route = str_replace($_ENV['APP_URL'], '', $currentUrl);
             $key = $_GET['key'] ?? $_POST['key'];
             $value = $_GET['value'] ?? $_POST['value'];
             $column =  $_GET['column'] ?? $_POST['column'];
@@ -272,7 +277,7 @@ class BannerController extends Controller
 
             if ($result > 0) {
                 $_SESSION['success'] = 'Cập nhật thành công';
-                redirect('banners');
+                redirect($route);
             }
         } catch (\Throwable $th) {
             echo $th->getMessage();

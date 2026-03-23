@@ -255,6 +255,7 @@ class MemberController extends Controller
     public function updateTeamMember()
     {
         try {
+            $route = $this->getCurrentRoute();
             $totalIds = count($_POST['ids']);
             $count = 0;
             $teamId = $_POST['team_id'] ?? NULL;
@@ -267,7 +268,7 @@ class MemberController extends Controller
 
             if ($totalIds == $count) {
                 $_SESSION['success'] = 'Thao tác thành công';
-                redirect('teams');
+                redirect($route);
             }
         } catch (\Throwable $th) {
             echo $th->getMessage();

@@ -22,11 +22,15 @@
                 @for ($i = 0; $i < count($bannerActives); $i++)
                     @if ($i == 0)
                         <div class="carousel-item active">
-                            <img src="{{ route($bannerActives[$i]['img']) }}" alt="">
+                            <a style="display: block" href="{{ route($bannerActives[$i]['link']) }}">
+                                <img src="{{ route($bannerActives[$i]['img']) }}" alt="">
+                            </a>
                         </div>
                     @else
                         <div class="carousel-item">
-                            <img src="{{ route($bannerActives[$i]['img']) }}" alt="">
+                            <a style="display: block" href="{{ route($bannerActives[$i]['link']) }}">
+                                <img src="{{ route($bannerActives[$i]['img']) }}" alt="">
+                            </a>
                         </div>
                     @endif
                 @endfor
@@ -52,123 +56,29 @@
                 </p>
             </header>
             <div class="row g-4">
-                <div class="col-lg-3 col-md-6">
-                    <article class="product-card">
-                        <div class="product-image"
-                            style="
-                                        background: linear-gradient(
-                                            135deg,
-                                            #667eea20,
-                                            #764ba220
-                                        );
-                                    ">
-                            <span class="product-badge">Hot</span>
-                            <i class="bi bi-laptop" style="color: #667eea"></i>
-                        </div>
-                        <div class="product-body">
-                            <h3 class="product-title">Hệ Thống ERP</h3>
-                            <p class="product-description">
-                                Quản lý doanh nghiệp toàn diện, tích hợp
-                                AI
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="product-price">50M+</span>
-                                <button class="btn btn-product">
-                                    Chi tiết
-                                    <i class="bi bi-arrow-right"></i>
-                                </button>
+                @foreach ($projects as $project)
+                    <div class="col-lg-3 col-md-6">
+                        <article class="product-card">
+                            <div class="product-image" style="background-image: url({{ route($project['img']) }})">
+                                <span class="product-badge">Hot</span>
+                                <i class="bi bi-laptop" style="color: #667eea"></i>
                             </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <article class="product-card">
-                        <div class="product-image"
-                            style="
-                                        background: linear-gradient(
-                                            135deg,
-                                            #2563eb20,
-                                            #7c3aed20
-                                        );
-                                    ">
-                            <i class="bi bi-phone" style="color: #2563eb"></i>
-                        </div>
-                        <div class="product-body">
-                            <h3 class="product-title">App Mobile</h3>
-                            <p class="product-description">
-                                Ứng dụng di động đa nền tảng iOS &amp;
-                                Android
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="product-price">30M+</span>
-                                <button class="btn btn-product">
-                                    Chi tiết
-                                    <i class="bi bi-arrow-right"></i>
-                                </button>
+                            <div class="product-body">
+                                <h3 class="product-title">{{ $project['name'] }}</h3>
+                                <p class="product-description">
+                                    {{ $project['description'] }}
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="product-price">50M+</span>
+                                    <button class="btn btn-product">
+                                        Chi tiết
+                                        <i class="bi bi-arrow-right"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <article class="product-card">
-                        <div class="product-image"
-                            style="
-                                        background: linear-gradient(
-                                            135deg,
-                                            #05966920,
-                                            #0891b220
-                                        );
-                                    ">
-                            <span class="product-badge">New</span>
-                            <i class="bi bi-cloud" style="color: #059669"></i>
-                        </div>
-                        <div class="product-body">
-                            <h3 class="product-title">
-                                Cloud Services
-                            </h3>
-                            <p class="product-description">
-                                Hạ tầng đám mây an toàn, mở rộng linh
-                                hoạt
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="product-price">20M+</span>
-                                <button class="btn btn-product">
-                                    Chi tiết
-                                    <i class="bi bi-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <article class="product-card">
-                        <div class="product-image"
-                            style="
-                                        background: linear-gradient(
-                                            135deg,
-                                            #ec489920,
-                                            #f4374420
-                                        );
-                                    ">
-                            <i class="bi bi-shield-check" style="color: #ec4899"></i>
-                        </div>
-                        <div class="product-body">
-                            <h3 class="product-title">
-                                Cyber Security
-                            </h3>
-                            <p class="product-description">
-                                Bảo mật toàn diện cho hệ thống của bạn
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="product-price">40M+</span>
-                                <button class="btn btn-product">
-                                    Chi tiết
-                                    <i class="bi bi-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>

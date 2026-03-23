@@ -59,7 +59,7 @@
                         <input class="checkAll" type="checkbox" id="checkAll">
                     </th>
                     <th scope="col">ID</th>
-                    <th scope="col">Tên dự án</th>
+                    <th scope="col">Tên thành viên</th>
                     <th scope="col">Hình ảnh</th>
                     <th scope="col">Thuộc team</th>
                     <th scope="col">Hành động</th>
