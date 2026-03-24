@@ -4,6 +4,7 @@ use App\Controllers\Admins\AuthController;
 use App\Controllers\Admins\BannerController;
 use App\Controllers\Admins\CategoryController;
 use App\Controllers\Admins\MemberController;
+use App\Controllers\Admins\MemberTeamController;
 use App\Controllers\Admins\ProjectController;
 use App\Controllers\Admins\TeamController;
 use App\Controllers\Admins\UserController;
@@ -58,7 +59,7 @@ $router->get('member/edit/{teamId}', MemberController::class . '@showEditMember'
 $router->post('member/update', MemberController::class . '@updateMember');
 $router->get('member/delete/{teamId}', MemberController::class . '@deleteMember');
 $router->post('members/delete', MemberController::class . '@deleteMember');
-$router->post('member/updateTeam', MemberController::class . '@updateTeamMember');
+// $router->post('member/updateTeam', MemberController::class . '@updateTeamMember');
 
 // Đây là nơi khai báo các route cho Banners
 $router->get('banners', BannerController::class . '@getAllBanners');
@@ -74,6 +75,10 @@ $router->get('banner/update', BannerController::class . '@updateBannerOneColumn'
 $router->get('login', AuthController::class . '@showLoginView');
 $router->get('logout', AuthController::class . '@logoutUser');
 $router->post('login', AuthController::class . '@loginUser');
+
+// Đây là nơi khai báo các route cho member_team
+$router->post('member_team/inser', MemberTeamController::class . '@inserMemberTeam');
+$router->post('member_team/delete', MemberTeamController::class . '@deleteMemberTeam');
 
 // ------------------------
 // Bên user view

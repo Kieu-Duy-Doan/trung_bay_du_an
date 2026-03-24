@@ -63,7 +63,8 @@
             <!-- Members Without Group Section -->
             <div class="info-card p-4 mb-3">
                 <!-- Member List -->
-                <form class="checkBoxHandler" action="{{ route('member/updateTeam') }}" method="post">
+                <form class="checkBoxHandler" action="{{ route('member_team/delete') }}" method="post">
+                    <input type="text" name="team_id" value="{{ $team['id'] }}" hidden>
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                         <div class="d-flex align-items-center gap-2">
                             <h5 class="fw-bold mb-0" style="color: #212529">
@@ -116,11 +117,11 @@
             </div>
             <!-- Members Without Group Section -->
             <div class="info-card p-4">
-                <form class="checkBoxHandler" action="{{ route('member/updateTeam') }}" method="post">
+                <form class="checkBoxHandler" action="{{ route('member_team/inser') }}" method="post">
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                         <div class="d-flex align-items-center gap-2">
                             <h5 class="fw-bold mb-0" style="color: #212529">
-                                Thành viên chưa có nhóm
+                                Thành viên khác
                             </h5>
                             <span class="badge-count" id="memberCount">{{ count($membersWithoutTeam) }}</span>
                         </div>

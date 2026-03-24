@@ -3,6 +3,7 @@
 namespace App\Controllers\Admins;
 
 use App\Controller;
+use App\Controllers\Admins\MemberTeamController;
 use App\Models\Member;
 use App\Models\Team;
 use Exception;
@@ -11,12 +12,14 @@ class TeamController extends Controller
 {
     private $teamModel;
     private $memberModel;
+    private $memberTeamController;
 
     public function __construct()
     {
         parent::__construct();
         $this->teamModel = new Team();
         $this->memberModel = new Member();
+        $this->memberTeamController = new MemberTeamController();
     }
 
     private function validateData($data)
@@ -113,12 +116,34 @@ class TeamController extends Controller
     public function showDetailView($teamId)
     {
         $team = $this->teamModel->getById($teamId);
-        $membersWithoutTeam = $this->memberModel->getAll([
-            'condition' => 'm.team_id IS NULL'
+        $memberTeams = $this->memberTeamController->getAllMemberTeamByCondition([
+            'teamId' => $teamId
         ]);
-        $memberOfTeams = $this->memberModel->getAll([
-            'condition' => "m.team_id = $teamId"
-        ]);
+
+        $memberIds = [];
+
+        foreach ($memberTeams as $memberTeam) {
+            array_push($memberIds, $memberTeam['member_id']);
+        }
+
+        $memberIdsString = implode(",", $memberIds);
+
+        // Phải có thành viên trong team teamId thì mới cho điều kiện
+        if ($memberIds) {
+            $membersWithoutTeam = $this->memberModel->getAll([
+                'condition' => "m.id NOT IN ($memberIdsString)",
+            ]);
+
+            $memberOfTeams = $this->memberModel->getAll([
+                'condition' => "m.id IN ($memberIdsString)",
+            ]);
+        } else { // Nếu team chưa có người, thì lấy hết thành viên cho vào mảng ngoài team và gán thành
+            // viên team bằng []
+            $membersWithoutTeam = $this->memberModel->getAll();
+
+            $memberOfTeams = [];
+        }
+
         return view('adminViews.teams.detail', compact('team', 'membersWithoutTeam', 'memberOfTeams'));
     }
 

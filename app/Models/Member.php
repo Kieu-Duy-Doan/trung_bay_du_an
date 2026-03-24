@@ -29,9 +29,9 @@ class Member extends Model
         $queryBuilder = $this->connection->createQueryBuilder();
 
         if ($limit == 0) {
-            $stmt = $queryBuilder->select('m.*', 't.name as team_name')->from('members', 'm')->leftJoin('m', 'teams', 't', 'm.team_id=t.id')->setFirstResult($offset)->orderBy($sort, $order);
+            $stmt = $queryBuilder->select('m.*')->from('members', 'm')->setFirstResult($offset)->orderBy($sort, $order);
         } else {
-            $stmt = $queryBuilder->select('m.*', 't.name as team_name')->from('members', 'm')->leftJoin('m', 'teams', 't', 'm.team_id=t.id')->setFirstResult($offset)->setMaxResults($limit)->orderBy($sort, $order);
+            $stmt = $queryBuilder->select('m.*')->from('members', 'm')->setFirstResult($offset)->setMaxResults($limit)->orderBy($sort, $order);
         }
 
         if ($condition) {
