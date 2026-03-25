@@ -3,6 +3,7 @@
 use App\Controllers\Admins\AuthController;
 use App\Controllers\Admins\BannerController;
 use App\Controllers\Admins\CategoryController;
+use App\Controllers\Admins\ContactController as AdminsContactController;
 use App\Controllers\Admins\MemberController;
 use App\Controllers\Admins\MemberTeamController;
 use App\Controllers\Admins\ProjectController;
@@ -80,6 +81,17 @@ $router->post('login', AuthController::class . '@loginUser');
 $router->post('member_team/inser', MemberTeamController::class . '@inserMemberTeam');
 $router->post('member_team/delete', MemberTeamController::class . '@deleteMemberTeam');
 
+
+// / Đây là nơi khai báo các route cho Contact
+$router->get('contacts', AdminsContactController::class . '@getAllContacts');
+$router->get('contact/create', AdminsContactController::class . '@showCreateContact');
+$router->get('contact/edit/{contactId}', AdminsContactController::class . '@showEditContact');
+$router->post('contact/update', AdminsContactController::class . '@updateContact');
+$router->get('contact/delete/{contactId}', AdminsContactController::class . '@deleteContact');
+$router->post('contacts/delete', AdminsContactController::class . '@deleteContact');
+
+// route bên khách
+$router->post('contact/insert', ContactController::class . '@insertContact');
 // ------------------------
 // Bên user view
 $router->get('home', HomeController::class . '@showHome');

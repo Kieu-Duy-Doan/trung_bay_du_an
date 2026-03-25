@@ -11,34 +11,72 @@
                 <h1 id="formTitle">Liên hệ với chúng tôi</h1>
                 <p id="formDescription">Chúng tôi rất muốn nghe từ bạn. Hãy để lại thông tin và chúng tôi sẽ liên hệ lại
                     trong thời gian sớm nhất.</p>
-            </div><!-- Contact Form -->
+            </div>
+            @if (isset($_SESSION['success']))
+                <div class="alert alert-success" role="alert">
+                    {{ $_SESSION['success'] }}
+                </div>
+            @endif
+            <!-- Contact Form -->
             <div class="form-card">
-                <form id="contactForm" novalidate><!-- Name and Email Row -->
+                <form id="contactForm" action="{{ route('contact/insert') }}" method="POST">
                     <div class="field-row">
-                        <div class="form-group"><label class="form-label" for="name">Tên của bạn</label> <input
-                                type="text" class="form-control" id="name" name="name"
-                                placeholder="Nhập tên của bạn" required>
-                            <div class="invalid-feedback">
-                                Vui lòng nhập tên của bạn
-                            </div>
+                        <div class="form-group">
+                            <label class="form-label" for="name">Tên của bạn</label>
+                            <input type="text" class="form-control {{ isset($errors['name']) ? 'is-invalid' : '' }}"
+                                id="name" name="name" placeholder="Nhập tên của bạn">
+                            @if (isset($errors['name']))
+                                <div class="invalid-feedback">
+                                    {{ $errors['name'] }}
+                                </div>
+                                @php
+                                    unset($errors['name']);
+                                @endphp
+                            @endif
                         </div>
-                        <div class="form-group"><label class="form-label" for="email">Email</label> <input type="email"
-                                class="form-control" id="email" name="email" placeholder="your@email.com" required>
-                            <div class="invalid-feedback">
-                                Vui lòng nhập email hợp lệ
-                            </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" class="form-control {{ isset($errors['email']) ? 'is-invalid' : '' }}"
+                                id="email" name="email" placeholder="your@email.com">
+                            @if (isset($errors['email']))
+                                <div class="invalid-feedback">
+                                    {{ $errors['email'] }}
+                                </div>
+                                @php
+                                    unset($errors['email']);
+                                @endphp
+                            @endif
                         </div>
-                    </div><!-- Phone -->
-                    <div class="form-group"><label class="form-label" for="phone">Số điện thoại</label> <input
-                            type="tel" class="form-control" id="phone" name="phone"
-                            placeholder="(+84) 123 456 789">
-                    </div><!-- Message -->
+                    </div>
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Số điện thoại</label>
+                        <input type="tel" class="form-control {{ isset($errors['name']) ? 'is-invalid' : '' }}"
+                            id="phone" name="phoneNumber" placeholder="(+84) 123 456 789">
+                        @if (isset($errors['phoneNumber']))
+                            <div class="invalid-feedback">
+                                {{ $errors['phoneNumber'] }}
+                            </div>
+                            @php
+                                unset($errors['phoneNumber']);
+                            @endphp
+                        @endif
+                    </div>
+                    <!-- Message -->
                     <div class="form-group"><label class="form-label" for="message">Nội dung liên hệ</label>
-                        <textarea class="form-control" id="message" name="message" placeholder="Nhập nội dung liên hệ của bạn..." required></textarea>
-                        <div class="invalid-feedback">
-                            Vui lòng nhập nội dung liên hệ
-                        </div>
-                    </div><!-- Submit Button --> <button type="submit" class="btn-submit" id="submitBtn"
+                        <textarea class="form-control {{ isset($errors['message']) ? 'is-invalid' : '' }}" id="message" name="message"
+                            placeholder="Nhập nội dung liên hệ của bạn..."></textarea>
+                        @if (isset($errors['message']))
+                            <div class="invalid-feedback">
+                                {{ $errors['message'] }}
+                            </div>
+                            @php
+                                unset($errors['message']);
+                            @endphp
+                        @endif
+                    </div>
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit" id="submitBtn"
                         style="background-color: #0d6efd; color: white;"> <span id="submitBtnText">Gửi liên hệ</span>
                     </button>
                 </form>
