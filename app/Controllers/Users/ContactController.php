@@ -61,7 +61,7 @@ class ContactController extends Controller
     public function showContact()
     {
         $active = 'contact';
-        $_SESSION['URI'] = $_SERVER['REQUEST_URI'];
+        $_SESSION['route'] = str_replace($_ENV['APP_NAME'], '', $_SERVER['REQUEST_URI']);
         return view('userViews.contact', compact('active'));
     }
 
@@ -69,7 +69,6 @@ class ContactController extends Controller
     {
         try {
             $rawData = $this->getAndCreateFormData();
-            $route = $this->getCurrentRoute();
             $errors = $this->validateData($rawData);
 
             if (count($errors) > 0) {
@@ -80,13 +79,12 @@ class ContactController extends Controller
                 ...$rawData
             ];
 
-            $uri = $_SESSION['URI'];
-            header($uri);
             $result = $this->contactModel->insert($data);
-
 
             if ($result > 0) {
                 $_SESSION['success'] = 'Gửi thông tin thành công';
+                $route = $_SESSION['route'];
+                unset($_SESSION['route']);
                 redirect($route);
             }
         } catch (\Throwable $th) {

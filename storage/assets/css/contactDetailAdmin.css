@@ -1,0 +1,321 @@
+.app-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--light-color);
+}
+
+.page-header {
+    background: var(--gradient-2);
+    padding: 2.5rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+.page-header::after {
+    content: "";
+    position: absolute;
+    bottom: -60%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+}
+
+.breadcrumb-custom a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+}
+
+.breadcrumb-custom a:hover {
+    color: #fff;
+}
+
+.breadcrumb-custom .separator {
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0 0.5rem;
+    font-size: 0.75rem;
+}
+
+.breadcrumb-custom .current {
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.page-title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin-top: 0.75rem;
+    letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.main-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow:
+        0 4px 24px rgba(15, 23, 42, 0.08),
+        0 1px 3px rgba(15, 23, 42, 0.04);
+    margin-top: -2.5rem;
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(37, 99, 235, 0.06);
+    overflow: hidden;
+}
+
+.card-top-bar {
+    height: 4px;
+    background: var(--gradient-2);
+}
+
+.contact-avatar-section {
+    text-align: center;
+    padding: 2rem 1.5rem 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-1);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: -1px;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+}
+
+.contact-name-header {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-top: 1rem;
+}
+
+.contact-id-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--primary-color);
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.detail-section {
+    padding: 1.75rem 2rem;
+}
+
+.detail-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 1.1rem 1.25rem;
+    border-radius: 12px;
+    transition: background 0.2s;
+    margin-bottom: 0.35rem;
+}
+
+.detail-row:hover {
+    background: rgba(37, 99, 235, 0.03);
+}
+
+.detail-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.95rem;
+}
+
+.icon-blue {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary-color);
+}
+
+.icon-purple {
+    background: rgba(124, 58, 237, 0.1);
+    color: #7c3aed;
+}
+
+.icon-emerald {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.icon-amber {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.detail-content {
+    margin-left: 1rem;
+    min-width: 0;
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #94a3b8;
+    margin-bottom: 0.2rem;
+}
+
+.detail-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--dark-color);
+    word-break: break-word;
+}
+
+.detail-value a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.detail-value a:hover {
+    text-decoration: underline;
+}
+
+.message-section {
+    padding: 0 2rem 2rem;
+}
+
+.message-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+}
+
+.message-box {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    position: relative;
+}
+
+.card-footer-section {
+    border-top: 1px solid #e2e8f0;
+    padding: 1.25rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary-custom {
+    background: var(--gradient-2);
+    color: #fff;
+}
+
+.btn-primary-custom:hover {
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+    transform: translateY(-1px);
+    color: #fff;
+}
+
+.btn-outline-custom {
+    background: transparent;
+    color: var(--text-color);
+    border: 1.5px solid #e2e8f0;
+}
+
+.btn-outline-custom:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(37, 99, 235, 0.04);
+}
+
+.btn-danger-outline {
+    background: transparent;
+    color: #ef4444;
+    border: 1.5px solid rgba(239, 68, 68, 0.25);
+}
+
+.btn-danger-outline:hover {
+    background: rgba(239, 68, 68, 0.06);
+    border-color: #ef4444;
+}
+
+.timestamp-bar {
+    padding: 1rem 2rem;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    border-radius: 0 0 16px 16px;
+    font-size: 0.78rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+@media (max-width: 576px) {
+    .detail-section,
+    .message-section {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+    .card-footer-section {
+        padding: 1rem 1.25rem;
+    }
+    .page-title {
+        font-size: 1.35rem;
+    }
+    .detail-row {
+        padding: 0.85rem 0.75rem;
+    }
+}

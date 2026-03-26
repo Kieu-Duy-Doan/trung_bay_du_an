@@ -9,10 +9,16 @@ class Contact extends Model
     public function countAll($options = [])
     {
         $keyword = $options['keyword'] ?? false;
+        $key = $options['key'] ?? false;
+        $value = $options['value'] ?? false;
         $queryBuilder = $this->connection->createQueryBuilder();
         $stmt = $queryBuilder->select('COUNT(*) as total')->from('contacts');
         if ($keyword) {
             $stmt->where("name LIKE :value")->setParameter('value', "%$keyword%");
+        }
+
+        if ($key != false && $value != false) {
+            $stmt->where("$key = :value")->setParameter('value', $value);
         }
         return $stmt->fetchOne();
     }
@@ -24,6 +30,8 @@ class Contact extends Model
         $order = $options['order'] ?? 'ASC';
         $sort = $options['sort'] ?? 'id';
         $keyword = $options['keyword'] ?? '';
+        $key = $options['key'] ?? false;
+        $value = $options['value'] ?? false;
 
         $queryBuilder = $this->connection->createQueryBuilder();
 
@@ -33,11 +41,17 @@ class Contact extends Model
             $stmt = $queryBuilder->select('*')->from('contacts')->setFirstResult($offset)->setMaxResults($limit)->orderBy($sort, $order);
         }
 
+        if ($key != false && $value != false) {
+            $stmt->andWhere("$key = :value")->setParameter('value', $value);
+        }
+
         if ($keyword) {
-            $stmt->where("name LIKE :value")->setParameters([
+            $stmt->andWhere("name LIKE :value")->setParameters([
                 'value' => "%$keyword%"
             ]);
         }
+
+        // debug($stmt->getSQL());
 
         return $stmt->fetchAllAssociative();
     }

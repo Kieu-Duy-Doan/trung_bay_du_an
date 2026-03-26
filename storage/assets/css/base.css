@@ -74,7 +74,8 @@ body {
     background-clip: text;
 }
 
-.nav-link {
+.nav-link,
+.nav-link-logout {
     font-weight: 500;
     color: var(--dark-color) !important;
     margin: 0 10px;
@@ -82,6 +83,10 @@ body {
     border-radius: 25px;
     transition: all 0.3s ease;
     position: relative;
+}
+
+.nav-link.nav-link-logout {
+    color: var(--light-color) !important;
 }
 
 .nav-link:hover,

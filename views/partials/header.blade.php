@@ -7,7 +7,7 @@
     </button>
     <div class="navbar-nav">
         <div class="nav-item text-nowrap">
-            <a class="nav-link px-3" href="{{ route('logout') }}">
+            <a class="nav-link nav-link-logout px-3 " href="{{ route('logout') }}">
                 Tạm biệt, {{ $_SESSION['myAcc']['name'] }}
             </a>
         </div>

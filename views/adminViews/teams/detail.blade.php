@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@section('link_css')
+    <link rel="stylesheet" href="{{ route('storage/assets/css/teamDetail.css') }}" />
+@endsection
+
 @section('content')
     <div class="app-wrapper">
         <div class="container py-4" style="max-width: 960px">

@@ -85,10 +85,12 @@ $router->post('member_team/delete', MemberTeamController::class . '@deleteMember
 // / Đây là nơi khai báo các route cho Contact
 $router->get('contacts', AdminsContactController::class . '@getAllContacts');
 $router->get('contact/create', AdminsContactController::class . '@showCreateContact');
-$router->get('contact/edit/{contactId}', AdminsContactController::class . '@showEditContact');
+$router->get('contact/detail/{contactId}', AdminsContactController::class . '@showDetailContact');
 $router->post('contact/update', AdminsContactController::class . '@updateContact');
 $router->get('contact/delete/{contactId}', AdminsContactController::class . '@deleteContact');
 $router->post('contacts/delete', AdminsContactController::class . '@deleteContact');
+$router->get('contact/prepare/{contactId}', AdminsContactController::class . '@showViewPrepareSendMail');
+$router->post('contact/sendMail', AdminsContactController::class . '@sendMail');
 
 // route bên khách
 $router->post('contact/insert', ContactController::class . '@insertContact');
