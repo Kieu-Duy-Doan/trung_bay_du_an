@@ -1,23 +1,24 @@
 const mailOpeningBtn = document.querySelector("#mail_opening");
+const mailContentBtn = document.querySelector("#mail_content");
 const modalLoading = document.querySelector(".modal-backdrop-custom");
 const inputEmailGreeting = document.querySelector("#emailGreeting");
+const inputEmailBody = document.querySelector("#emailBody");
 
-console.log(customerName);
-console.log(customerEmail);
-console.log(customerProblem);
+const promtOpeningMail = `Từ mẫu sau: "Xin chào ${customerName}, chào mừng đến với DISPLAY_PROJECT Website". Hãy tạo ra 5 lời mở đầu tương tự như vậy. Nội dung cần tự nhiên, thu hút và tăng tỷ lệ mở email. Chỉ trả về nội dung hoàn chỉnh. Không giải thích. Không thêm tiêu đề. Không xuống dòng thừa.`;
+const promtBodyMail = `Hãy là một nhân viên chăm sóc khách hàng với 10 năm kinh nghiệm. Hãy viết phần nội dung của email giải quyết vấn đề sau: "${customerProblem}". Với tên khách hàng là ${customerName} và tên người gửi là DISPLAY_PROJECT Website. Chỉ trả về nội dung hoàn chỉnh. Không giải thích. Không thêm tiêu đề. Không xuống dòng thừa.`;
 
 mailOpeningBtn.onclick = function () {
     modalLoading.classList.remove("d-none");
 
     axios
         .post(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=AIzaSyC00i3nWgHXqyyaM8sJL0AuPbdGtRnCJFk`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
             {
                 contents: [
                     {
                         parts: [
                             {
-                                text: `Hãy tạo 5 tiêu đề email (subject) ngắn gọn, chuyên nghiệp và thân thiện bằng tiếng Việt để phản hồi khách hàng. Mỗi subject phải theo cấu trúc: "Xin chào Đoàn từ DISPLAY_PROJECT WEBSITE". Nội dung cần tự nhiên, thu hút và tăng tỷ lệ mở email.`,
+                                text: promtOpeningMail,
                             },
                         ],
                     },
@@ -36,6 +37,44 @@ mailOpeningBtn.onclick = function () {
         })
         .catch((error) => {
             modalLoading.classList.add("d-none");
-            console.error(error.response?.data || error.message);
+            mailOpeningBtn.previousElementSibling.classList.remove("d-none");
+            mailOpeningBtn.previousElementSibling.innerHTML =
+                error.response?.data || error.message;
+        });
+};
+
+mailContentBtn.onclick = function () {
+    modalLoading.classList.remove("d-none");
+
+    axios
+        .post(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
+            {
+                contents: [
+                    {
+                        parts: [
+                            {
+                                text: promtBodyMail,
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            },
+        )
+        .then((response) => {
+            modalLoading.classList.add("d-none");
+            const text = response.data.candidates[0].content.parts[0].text;
+            inputEmailBody.value = text;
+        })
+        .catch((error) => {
+            modalLoading.classList.add("d-none");
+            mailContentBtn.previousElementSibling.classList.remove("d-none");
+            mailContentBtn.previousElementSibling.innerHTML =
+                error.response?.data || error.message;
         });
 };

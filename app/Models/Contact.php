@@ -17,7 +17,7 @@ class Contact extends Model
             $stmt->where("name LIKE :value")->setParameter('value', "%$keyword%");
         }
 
-        if ($key != false && $value != false) {
+        if ($key !== false && $value !== false) {
             $stmt->where("$key = :value")->setParameter('value', $value);
         }
         return $stmt->fetchOne();
@@ -41,7 +41,7 @@ class Contact extends Model
             $stmt = $queryBuilder->select('*')->from('contacts')->setFirstResult($offset)->setMaxResults($limit)->orderBy($sort, $order);
         }
 
-        if ($key != false && $value != false) {
+        if ($key !== false && $value !== false) {
             $stmt->andWhere("$key = :value")->setParameter('value', $value);
         }
 
@@ -50,8 +50,6 @@ class Contact extends Model
                 'value' => "%$keyword%"
             ]);
         }
-
-        // debug($stmt->getSQL());
 
         return $stmt->fetchAllAssociative();
     }
@@ -77,5 +75,16 @@ class Contact extends Model
     public function delete($where)
     {
         return $this->connection->delete('contacts', $where);
+    }
+
+    public function updateStatus($id, $options = [])
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $stmt = $queryBuilder->update('contacts');
+        for ($i = 0; $i < count($options); $i++) {
+            $stmt->set($options[$i]['key'], ":value$i")->setParameter("value$i", $options[$i]['value']);
+        }
+        $stmt->where('contacts.id = :id')->setParameter('id', $id);
+        return $stmt->executeStatement();
     }
 }

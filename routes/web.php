@@ -11,6 +11,7 @@ use App\Controllers\Admins\TeamController;
 use App\Controllers\Admins\UserController;
 use App\Controllers\Users\ContactController;
 use App\Controllers\Users\HomeController;
+use App\Controllers\Users\ProjectController as UsersProjectController;
 use Bramus\Router\Router;
 
 $router = new Router();
@@ -60,6 +61,7 @@ $router->get('member/edit/{teamId}', MemberController::class . '@showEditMember'
 $router->post('member/update', MemberController::class . '@updateMember');
 $router->get('member/delete/{teamId}', MemberController::class . '@deleteMember');
 $router->post('members/delete', MemberController::class . '@deleteMember');
+$router->get('member/detail/{memberId}', MemberController::class . '@showMemberDetail');
 // $router->post('member/updateTeam', MemberController::class . '@updateTeamMember');
 
 // Đây là nơi khai báo các route cho Banners
@@ -98,6 +100,8 @@ $router->post('contact/insert', ContactController::class . '@insertContact');
 // Bên user view
 $router->get('home', HomeController::class . '@showHome');
 $router->get('contact', ContactController::class . '@showContact');
+$router->get('products', UsersProjectController::class . '@showProjects');
+$router->get('product/{productId}', UsersProjectController::class . '@showProjectDetail');
 
 // xử lý không có đường dẫn nào trùng
 // $router->set404(function () {

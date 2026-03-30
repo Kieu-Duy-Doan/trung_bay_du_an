@@ -49,18 +49,16 @@ class ContactController extends Controller
 
     private function getAndCreateFormData()
     {
-        $name = htmlspecialchars($_POST['name']);
-        $email = htmlspecialchars($_POST['email']);
-        $phoneNumber = htmlspecialchars($_POST['phoneNumber']);
-        $message = htmlspecialchars($_POST['message']);
-        $status = htmlspecialchars($_POST['status']) ?? 0;
+        $name = htmlspecialchars($_POST['name_to']);
+        $email = htmlspecialchars($_POST['email_to']);
+        $subject = htmlspecialchars($_POST['email_greeting']);
+        $body = htmlspecialchars($_POST['email_body']);
 
         $data = [
             'name' => $name,
             'email' => $email,
-            'phoneNumber' => $phoneNumber,
-            'message' => $message,
-            'status' => $status,
+            'subject' => $subject,
+            'body' => $body,
         ];
 
         return $data;
@@ -98,6 +96,8 @@ class ContactController extends Controller
                     'value' => $value,
                 ]);
 
+                // debug($value);
+
                 $limit = $_ENV['LIMIT'];
 
                 $totalPage = ceil($totalContacts / $limit);
@@ -112,6 +112,7 @@ class ContactController extends Controller
                     'key' => $key,
                     'value' => $value,
                 ]);
+                // debug($contacts);
                 return view('adminViews.contacts.index', compact('contacts', 'totalPage', 'page', 'sort', 'order', 'keyword', 'key', 'value', 'totalContacts', 'unreadContactsCount', 'readContactsCount'));
             }
 
@@ -156,14 +157,22 @@ class ContactController extends Controller
         }
     }
 
-    public function showDetailContact($categoryId)
+    public function showDetailContact($contactId)
     {
-        $contact = $this->contactModel->getById($categoryId);
-        return view('adminViews.contacts.detail', compact('contact'));
+        try {
+            $this->contactModel->updateStatus($contactId, [
+                ['key' => 'status', 'value' => 1]
+            ]);
+            $contact = $this->contactModel->getById($contactId);
+            return view('adminViews.contacts.detail', compact('contact'));
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
     }
 
     public function showViewPrepareSendMail($categoryId)
     {
+        $_SESSION['url_prev'] = str_replace("/" . $_ENV['APP_NAME'] . "/", '', $_SERVER['REQUEST_URI']);
         $contact = $this->contactModel->getById($categoryId);
         return view('adminViews.contacts.mail', compact('contact'));
     }
@@ -180,78 +189,25 @@ class ContactController extends Controller
             $this->mail->SMTPSecure = 'tls';
             $this->mail->Port       = $_ENV['MAIL_PORT'];
 
+            $data = $this->getAndCreateFormData();
+
             // Người gửi & nhận
             $this->mail->setFrom($_ENV['EMAIL_FROM'], $_ENV['NAME_FROM']); // email người gửi 
-            $this->mail->addAddress('kieuduydoan18@gmail.com', 'Phương'); // email người nhận
+            $this->mail->addAddress($data['email'], $data['name']); // email người nhận
 
             // FIX TIẾNG VIỆT
             $this->mail->CharSet = 'UTF-8';
             // Nội dung
             $this->mail->isHTML(true);
-            $this->mail->Subject = 'Test gửi email';
-            $this->mail->Body    = 'Xin chào, đây là email được gửi từ PHPMailer!';
+            $this->mail->Subject = $data['subject'];
+            $this->mail->Body    = $data['body'];
 
             $this->mail->send();
-            echo 'Gửi email thành công!';
+            $_SESSION['success'] = 'Gửi email thành công';
+            redirect($_SESSION['url_prev']);
         } catch (Exception $e) {
-            echo "Lỗi: {$this->mail->ErrorInfo}";
+            $_SESSION['success'] = "Lỗi: {$this->mail->ErrorInfo}";
+            redirect($_SESSION['url_prev']);
         }
     }
-
-    // public function deleteContact($categoryId = false)
-    // {
-    //     try {
-    //         if ($categoryId) {
-    //             $category = $this->contactModel->getById($categoryId);
-    //             $where = [
-    //                 'id' => $categoryId,
-    //             ];
-
-    //             $result = $this->contactModel->delete($where);
-
-    //             if ($result > 0) {
-    //                 if (file_exists(BASE_URL . $category['img'])) {
-    //                     unlink(BASE_URL . $category['img']);
-    //                 }
-    //                 $_SESSION['success'] = 'Xóa thành công';
-    //                 redirect('categories');
-    //             }
-    //         }
-
-    //         $totalIds = count($_POST['ids']);
-    //         $count = 0;
-
-    //         foreach ($_POST['ids'] as $id) {
-    //             $category = $this->contactModel->getById($id);
-    //             if (!empty($category)) {
-    //                 $where = [
-    //                     'id' => $id,
-    //                 ];
-
-    //                 $result = $this->contactModel->delete($where);
-
-    //                 if ($result > 0) {
-    //                     if (file_exists(BASE_URL . $category['img'])) {
-    //                         unlink(BASE_URL . $category['img']);
-    //                     }
-    //                     ++$count;
-    //                 } else {
-    //                     throw new Exception('Có lỗi xảy ra');
-    //                 }
-    //             } else {
-    //                 throw new Exception('Có lỗi xảy ra');
-    //             }
-    //         }
-
-    //         if ($count == $totalIds) {
-    //             $_SESSION['success'] = 'Xóa thành công';
-    //             redirect('categories');
-    //         } else {
-    //             echo $count;
-    //             echo $totalIds;
-    //         }
-    //     } catch (\Throwable $th) {
-    //         echo $th->getMessage();
-    //     }
-    // }
 }

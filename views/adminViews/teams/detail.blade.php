@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="app-wrapper">
-        <div class="container py-4" style="max-width: 960px">
+        <div class="container py-4">
             <!-- Group Info Section -->
             <div class="group-banner p-4 mb-4">
                 <div class="d-flex align-items-start gap-4 flex-wrap">

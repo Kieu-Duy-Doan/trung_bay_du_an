@@ -3,7 +3,7 @@
         <div class="row g-5">
             <div class="col-lg-4">
                 <div class="footer-brand">
-                    <i class="bi bi-cpu"></i> TechLab
+                    <i class="bi bi-cpu"></i> XUONGCNTT
                 </div>
                 <p class="footer-description" id="footer-text">
                     Kiến tạo tương lai số - Đồng hành cùng doanh
@@ -72,7 +72,7 @@
                 <ul class="footer-contact">
                     <li>
                         <i class="bi bi-geo-alt"></i>
-                        <span>123 Đường ABC, Quận 1, TP.HCM</span>
+                        <span>195 Khuất Duy Tiến, Thanh Xuân, Hà Nội</span>
                     </li>
                     <li>
                         <i class="bi bi-telephone"></i>
@@ -80,7 +80,7 @@
                     </li>
                     <li>
                         <i class="bi bi-envelope"></i>
-                        <span>info@techlab.vn</span>
+                        <span>kieuduydoan2k2@gmail.com</span>
                     </li>
                 </ul>
                 <form class="newsletter-form"
@@ -99,7 +99,7 @@
         </div>
         <div class="footer-bottom">
             <p>
-                © 2024 TechLab. All rights reserved. | Designed with
+                © 2026 KIEU DUY DOAN. All rights reserved. | Designed with
                 <i class="bi bi-heart-fill text-danger"></i> in
                 Vietnam
             </p>

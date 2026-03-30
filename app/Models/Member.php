@@ -57,7 +57,12 @@ class Member extends Model
 
     public function insert($data)
     {
-        return $this->connection->insert('members', $data);
+        $result = $this->connection->insert('members', $data);
+        $id = $this->connection->lastInsertId();
+        return [
+            'result' => $result,
+            'id' => $id
+        ];
     }
 
     public function update($data, $where)
@@ -79,5 +84,12 @@ class Member extends Model
             ->setParameter('team_id', $teamID)
             ->setParameter('id', $memberID);
         return $stmt->executeStatement();
+    }
+
+    public function getMembersOfTeam($teamId)
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $stmt = $queryBuilder->select('m.*')->from('members', 'm')->innerJoin('m', 'member_team', 'mt', 'm.id = mt.member_id')->where('mt.team_id = :teamId')->setParameter('teamId', $teamId);
+        return $stmt->fetchAllAssociative();
     }
 }

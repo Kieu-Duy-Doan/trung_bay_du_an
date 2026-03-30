@@ -43,12 +43,13 @@
             <button class="btn btn-primary flex-shrink-0" type="submit">Tìm kiếm</button>
         </form>
     </div>
-    @if (isset($_SESSION['success']))
+    @if (isset($_SESSION['success']) || isset($_SESSION['error']))
         <div class="alert alert-success mt-3" role="alert">
-            {{ $_SESSION['success'] }}
+            {{ $_SESSION['success'] ?? $_SESSION['error'] }}
         </div>
         @php
             unset($_SESSION['success']);
+            unset($_SESSION['error']);
         @endphp
     @endif
     <form class="checkBoxHandler" id="formDelete" action="{{ route('members/delete') }}" method="post">
@@ -61,7 +62,6 @@
                     <th scope="col">ID</th>
                     <th scope="col">Tên thành viên</th>
                     <th scope="col">Hình ảnh</th>
-                    <th scope="col">Thuộc team</th>
                     <th scope="col">Hành động</th>
                 </tr>
             </thead>
@@ -77,9 +77,11 @@
                             <img src="{{ route($member['img']) }}" alt="" width="100px" height="100px"
                                 style="border-radius: 50%">
                         </td>
-                        <td>{{ $member['team_name'] ?? 'Chưa thuộc team nào!' }}</td>
                         <td>
                             <a href="{{ route('member/edit/' . $member['id']) }}" class="btn btn-primary me-3">Sửa</a>
+                            <a href="{{ route('member/detail/' . $member['id']) }}" class="btn btn-info me-3">
+                                Xem chi tiết
+                            </a>
                             <a onclick="return confirm('Bạn có chắc chắn muốn xóa!')"
                                 href="{{ route('member/delete/' . $member['id']) }}" class="btn btn-danger me-3">Xóa</a>
                         </td>

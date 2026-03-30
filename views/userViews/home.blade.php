@@ -70,10 +70,10 @@
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="product-price">50M+</span>
-                                    <button class="btn btn-product">
+                                    <a href='{{ route('product/' . $project['id']) }}' class="btn btn-product">
                                         Chi tiết
                                         <i class="bi bi-arrow-right"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </article>

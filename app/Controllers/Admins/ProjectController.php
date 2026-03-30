@@ -5,18 +5,21 @@ namespace App\Controllers\Admins;
 use App\Controller;
 use App\Models\Category;
 use App\Models\Project;
+use App\Models\Team;
 use Exception;
 
 class ProjectController extends Controller
 {
     private $projectModel;
     private $categoryModel;
+    private $teamModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->projectModel = new Project();
         $this->categoryModel = new Category();
+        $this->teamModel = new Team();
     }
 
     private function validateData($data)
@@ -25,12 +28,14 @@ class ProjectController extends Controller
             'name' => 'required',
             'description' => 'required',
             'category_id' => 'required',
+            'team_id' => 'required',
         ];
 
         $this->validator->setMessages([
             'name:required' => 'Vui lòng nhập tên',
             'description:required' => 'Vui lòng nhập mô tả',
             'category_id:required' => 'Vui lòng chọn danh mục',
+            'team_id:required' => 'Vui lòng chọn team phát triển',
         ]);
 
         $errors = $this->validate($this->validator, $data, $rules);
@@ -43,11 +48,15 @@ class ProjectController extends Controller
         $name = htmlspecialchars($_POST['name']);
         $description = htmlspecialchars($_POST['description']);
         $categoryId = htmlspecialchars($_POST['category_id']);
+        $teamId = htmlspecialchars($_POST['team_id']);
+        $linkDemo = htmlspecialchars($_POST['link_demo']) ?? null;
 
         $data = [
             'name' => $name,
             'description' => $description,
             'category_id' => $categoryId,
+            'team_id' => $teamId,
+            'link_demo' => $linkDemo,
         ];
 
         return $data;
@@ -103,6 +112,13 @@ class ProjectController extends Controller
                 ]);
             }
 
+            foreach ($projects as &$project) {
+                $project['team_name'] = $this->teamModel->getById($project['team_id'])['name'];
+            }
+
+            // Xóa bỏ biến $project để tránh bị ảnh hưởng đến các phần khác của code
+            unset($project);
+
             return view('adminViews.projects.index', compact('projects', 'totalPage', 'page', 'sort', 'order', 'keyword'));
         } catch (\Throwable $th) {
             echo $th->getMessage();
@@ -111,8 +127,9 @@ class ProjectController extends Controller
 
     public function showCreateProject()
     {
+        $teams = $this->teamModel->getAll();
         $categories = $this->categoryModel->getAll();
-        return view('adminViews.projects.create', compact('categories'));
+        return view('adminViews.projects.create', compact('categories', 'teams'));
     }
 
     public function insertProject()
@@ -124,7 +141,8 @@ class ProjectController extends Controller
 
             if (count($errors) > 0) {
                 $categories = $this->categoryModel->getAll();
-                return view('adminViews.projects.create', compact('errors', 'categories'));
+                $teams = $this->teamModel->getAll();
+                return view('adminViews.projects.create', compact('errors', 'categories', 'teams'));
             }
 
             if (is_upload('img')) {
@@ -149,9 +167,11 @@ class ProjectController extends Controller
 
     public function showEditProject($projectId)
     {
+        $_SESSION['url_prev'] =  $this->getCurrentRoute();
         $project = $this->projectModel->getById($projectId);
         $categories = $this->categoryModel->getAll();
-        return view('adminViews.projects.edit', compact('project', 'categories'));
+        $teams = $this->teamModel->getAll();
+        return view('adminViews.projects.edit', compact('project', 'categories', 'teams'));
     }
 
     public function updateProject()
@@ -164,7 +184,9 @@ class ProjectController extends Controller
             $project = $this->projectModel->getById($_POST['id']);
 
             if (count($errors) > 0) {
-                return view('adminViews.projects.edit', compact('errors', 'category'));
+                $categories = $this->categoryModel->getAll();
+                $teams = $this->teamModel->getAll();
+                return view('adminViews.projects.edit', compact('errors', 'categories', 'teams', 'project'));
             }
 
             if (is_upload('img')) {
@@ -177,7 +199,7 @@ class ProjectController extends Controller
             }
 
             $data = [
-                'name' => $rawData['name'],
+                ...$rawData,
                 'img' => $img,
             ];
 
@@ -189,7 +211,10 @@ class ProjectController extends Controller
 
             if ($result > 0) {
                 $_SESSION['success'] = 'Sửa thành công!';
-                redirect('projects');
+                redirect($_SESSION['url_prev']);
+            } else {
+                $_SESSION['error'] = 'Có lỗi xảy ra, vui lòng thử lại!';
+                redirect($_SESSION['url_prev']);
             }
         } catch (\Throwable $th) {
             echo $th->getMessage();

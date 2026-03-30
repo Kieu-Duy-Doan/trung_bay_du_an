@@ -237,6 +237,8 @@
     font-size: 4rem;
     position: relative;
     overflow: hidden;
+    background-position: center;
+    background-size: cover;
 }
 
 .product-image::before {
@@ -268,12 +270,22 @@
     font-weight: 700;
     color: var(--dark-color);
     margin-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
 }
 
 .product-description {
     color: #64748b;
     font-size: 0.95rem;
     margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* số dòng muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 46px;
 }
 
 .product-price {

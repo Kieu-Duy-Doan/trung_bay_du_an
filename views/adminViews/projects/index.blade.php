@@ -43,12 +43,14 @@
             <button class="btn btn-primary flex-shrink-0" type="submit">Tìm kiếm</button>
         </form>
     </div>
-    @if (isset($_SESSION['success']))
+    @if (isset($_SESSION['success']) || isset($_SESSION['error']))
         <div class="alert alert-success mt-3" role="alert">
-            {{ $_SESSION['success'] }}
+            {{ $_SESSION['success'] ?? $_SESSION['error'] }}
         </div>
         @php
             unset($_SESSION['success']);
+            unset($_SESSION['error']);
+            unset($_SESSION['url_prev']);
         @endphp
     @endif
     <form class="checkBoxHandler" id="formDelete" action="{{ route('projects/delete') }}" method="post">
@@ -62,6 +64,7 @@
                     <th scope="col">Tên dự án</th>
                     <th scope="col">Hình ảnh</th>
                     <th scope="col">Tên danh mục</th>
+                    <th scope="col">Team phát triển</th>
                     <th scope="col">Hành động</th>
                 </tr>
             </thead>
@@ -74,9 +77,10 @@
                         <td>{{ $project['id'] }}</td>
                         <td>{{ $project['name'] }}</td>
                         <td>
-                            <img src="{{ route($project['img']) }}" alt="" width="100px" height="100px">
+                            <img src="{{ route($project['img']) }}" alt="" style="width: 100px; height: 100px">
                         </td>
                         <td>{{ $project['category_name'] }}</td>
+                        <td>{{ $project['team_name'] }}</td>
                         <td>
                             <a href="{{ route('project/edit/' . $project['id']) }}" class="btn btn-primary me-3">Sửa</a>
                             <a onclick="return confirm('Bạn có chắc chắn muốn xóa!')"

@@ -13,20 +13,6 @@
                 @endif
             </div>
             <div class="mb-3">
-                <label class="form-label">Team dự án</label>
-                <select class="form-select {{ isset($errors['team_id']) ? 'is-invalid' : '' }}" name="team_id">
-                    <option value="" selected>--Chọn team--</option>
-                    @foreach ($teams as $team)
-                        <option {{ $member['team_id'] == $team['id'] ? 'selected' : '' }} value="{{ $team['id'] }}">
-                            {{ $team['name'] }}
-                        </option>
-                    @endforeach
-                </select>
-                @if (isset($errors['team_id']))
-                    <div class="invalid-feedback">{{ $errors['team_id'] }}</div>
-                @endif
-            </div>
-            <div class="mb-3">
                 <label for="formFile" class="form-label">Ảnh thành viên</label>
                 <input class="form-control" type="file" id="formFile" name="img">
             </div>

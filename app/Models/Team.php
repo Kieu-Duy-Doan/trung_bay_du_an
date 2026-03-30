@@ -34,7 +34,7 @@ class Team extends Model
         }
 
         if ($keyword) {
-            $stmt->where("p.name LIKE :value")->setParameters([
+            $stmt->where("name LIKE :value")->setParameters([
                 'value' => "%$keyword%"
             ]);
         }
@@ -63,5 +63,12 @@ class Team extends Model
     public function delete($where)
     {
         return $this->connection->delete('teams', $where);
+    }
+
+    public function getTeamofMember($memberId)
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $stmt = $queryBuilder->select('t.*')->from('teams', 't')->innerJoin('t', 'member_team', 'mt', 't.id = mt.team_id')->where('member_id = :memberId')->setParameter('memberId', $memberId);
+        return $stmt->fetchAllAssociative();
     }
 }

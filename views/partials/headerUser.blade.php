@@ -12,8 +12,9 @@
                     <a class="nav-link {{ $active == 'home' ? 'active' : '' }}" href="{{ route('home') }}">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ $active == 'products' ? 'active' : '' }}" href="{{ route('home') }}">Sản
-                        phẩm</a>
+                    <a class="nav-link {{ $active == 'projects' ? 'active' : '' }}" href="{{ route('products') }}">
+                        Dự án
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ $active == 'teams' ? 'active' : '' }}" href="{{ route('home') }}">Đội ngũ</a>

@@ -43,17 +43,17 @@
     </div>
     <!-- Filter -->
     <div class="d-flex gap-2 mb-3 flex-wrap">
-        <a href="{{ route("contacts?sort=$sort&order=$order&keyword=$keyword&page=" . $page) }}"
+        <a href="{{ route("contacts?sort=$sort&order=$order&keyword=$keyword&page=1") }}"
             class="btn btn-outline-secondary btn-sm rounded-pill px-3 filter-btn {{ !$key ? 'active' : '' }}"
             data-filter="all">
             Tất cả
         </a>
-        <a href="{{ route("contacts?sort=$sort&order=$order&keyword=$keyword&key=status&value=0&page=" . $page) }}"
+        <a href="{{ route("contacts?sort=$sort&order=$order&keyword=$keyword&key=status&value=0&page=1") }}"
             class="btn btn-outline-secondary btn-sm rounded-pill px-3 filter-btn {{ $key && $value == 0 ? 'active' : '' }}"
             data-filter="unread">
             Chưa đọc
         </a>
-        <a href="{{ route("contacts?sort=$sort&order=$order&keyword=$keyword&key=status&value=1&page=" . $page) }}"
+        <a href="{{ route("contacts?sort=$sort&order=$order&keyword=$keyword&key=status&value=1&page=1") }}"
             class="btn btn-outline-secondary btn-sm rounded-pill px-3 filter-btn {{ $key && $value == 1 ? 'active' : '' }}"
             data-filter="read">
             Đã đọc

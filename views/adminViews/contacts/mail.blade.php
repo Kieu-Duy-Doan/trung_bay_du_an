@@ -11,6 +11,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="main-card">
+                        @if (isset($_SESSION['success']))
+                            <div class="alert alert-success mb-3" role="alert">
+                                {{ $_SESSION['success'] }}
+                            </div>
+                        @endif
+                        @php
+                            unset($_SESSION['success']);
+                        @endphp
                         <!-- Sender Section -->
                         <form action="{{ route('contact/sendMail') }}" method="post">
                             <div class="p-4 pb-3">
@@ -27,26 +35,32 @@
                                         <div class="input-icon-wrapper">
                                             <i class="fa-regular fa-user input-icon"></i>
                                             <input type="text" class="form-control" id="senderName" name="name_from"
-                                                value="{{ $contact['name'] }}" placeholder="Nguyễn Văn A">
+                                                value="{{ $_ENV['NAME_FROM'] }}" placeholder="Nguyễn Văn A" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-6"><label class="form-label" for="senderEmail"> Email người gửi <span
                                                 class="required">*</span> </label>
                                         <div class="input-icon-wrapper"><i class="fa-regular fa-envelope input-icon"></i>
                                             <input type="email" class="form-control" id="senderEmail" name="email_from"
-                                                placeholder="nguyenvana@email.com" value="{{ $contact['name'] }}">
+                                                placeholder="nguyenvana@email.com" value="{{ $_ENV['EMAIL_FROM'] }}"
+                                                disabled>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="divider-line mx-4"></div>
                             <!-- Receiver Section -->
-                            <div class="p-4 pb-3 pt-3"><span class="section-label mb-3"> <i class="fa-solid fa-users"></i>
-                                    Thông
-                                    tin người nhận </span>
+                            <div class="p-4 pb-3 pt-3">
+                                <span class="section-label mb-3">
+                                    <i class="fa-solid fa-users"></i>
+                                    Thông tin người nhận
+                                </span>
                                 <div class="row mt-3 g-3">
-                                    <div class="col-md-6"><label class="form-label" for="receiverName"> Tên người nhận <span
-                                                class="required">*</span> </label>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="receiverName">
+                                            Tên người nhận
+                                            <span class="required">*</span>
+                                        </label>
                                         <div class="input-icon-wrapper"><i class="fa-regular fa-user input-icon"></i> <input
                                                 type="text" class="form-control" id="receiverName" name="name_to"
                                                 placeholder="Trần Thị B" value="{{ $contact['name'] }}">
@@ -63,9 +77,11 @@
                             </div>
                             <div class="divider-line mx-4"></div>
                             <!-- Email Content Section -->
-                            <div class="p-4 pb-3 pt-3"><span class="section-label mb-3"> <i class="fa-solid fa-pen-nib"></i>
-                                    Nội
-                                    dung email </span>
+                            <div class="p-4 pb-3 pt-3">
+                                <span class="section-label mb-3">
+                                    <i class="fa-solid fa-pen-nib"></i>
+                                    Nội dung email
+                                </span>
                                 <div class="mt-3 mb-3">
                                     <label class="form-label" for="emailGreeting">
                                         Phần mở đầu
@@ -76,7 +92,8 @@
                                         <textarea class="form-control" id="emailGreeting" name="email_greeting" rows="3"
                                             placeholder="Kính gửi Quý khách hàng, Cảm ơn quý khách đã liên hệ với chúng tôi...">
                                         </textarea>
-                                        <div id="mail_opening" type="submit" class="btn btn-send mt-2">
+                                        <div class="alert alert-danger d-none mt-3 mb-3" role="alert"></div>
+                                        <div id="mail_opening" class="btn btn-send mt-2">
                                             <i class="fa-solid fa-brain me-2"></i>AI gợi ý
                                         </div>
                                     </div>
@@ -91,7 +108,8 @@
                                         <textarea class="form-control" id="emailBody" name="email_body" rows="6"
                                             placeholder="Nhập nội dung phản hồi chi tiết cho khách hàng tại đây...">
                                         </textarea>
-                                        <div type="submit" class="btn btn-send mt-2">
+                                        <div class="alert alert-danger d-none mt-3 mb-3" role="alert"></div>
+                                        <div id="mail_content" class="btn btn-send mt-2">
                                             <i class="fa-solid fa-brain me-2"></i>AI gợi ý
                                         </div>
                                     </div>
@@ -147,16 +165,10 @@
         </div>
     </div>
     <script>
-        // const customerName = <?php echo json_encode($contact['name']); ?>
-        // const customerEmail = <?php echo json_encode($contact['email']); ?>
-
         const customerName = <?php echo json_encode($contact['name'] ?? ''); ?>;
         const customerEmail = <?php echo json_encode($contact['email'] ?? ''); ?>;
         const customerProblem = <?php echo json_encode($contact['message'] ?? ''); ?>;
-
-
-
-        // const customerProblem = <?php echo json_encode($contact['message']); ?>
+        const apiKey = <?php echo json_encode($_ENV['API_KEY'] ?? ''); ?>;
     </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ route('storage/assets/js/admins/mail.js') }}"></script>

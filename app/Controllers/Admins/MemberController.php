@@ -4,6 +4,7 @@ namespace App\Controllers\Admins;
 
 use App\Controller;
 use App\Models\Member;
+use App\Models\MemberTeam;
 use App\Models\Team;
 use Exception;
 
@@ -11,12 +12,14 @@ class MemberController extends Controller
 {
     private $memberModel;
     private $teamModel;
+    private $memberTeamModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->memberModel = new Member();
         $this->teamModel = new Team();
+        $this->memberTeamModel = new MemberTeam();
     }
 
     private function validateData($data)
@@ -37,14 +40,18 @@ class MemberController extends Controller
     private function getAndCreateFormData()
     {
         $name = htmlspecialchars($_POST['name']);
-        $team_id = empty($_POST['team_id']) ? null : htmlspecialchars($_POST['team_id']);
+        if (isset($_POST['team_id'])) {
+            $team_id = htmlspecialchars($_POST['team_id']);
 
-        $data = [
+            return [
+                'name' => $name,
+                'team_id' => $team_id,
+            ];
+        }
+
+        return [
             'name' => $name,
-            'team_id' => $team_id,
         ];
-
-        return $data;
     }
 
     public function getAllMembers()
@@ -129,14 +136,21 @@ class MemberController extends Controller
 
             $data = [
                 'name' => $rawData['name'],
-                'team_id' => $rawData['team_id'],
                 'img' => $img,
             ];
 
             $result = $this->memberModel->insert($data);
 
-            if ($result > 0) {
-                $_SESSION['success'] = 'Thêm thành công!';
+            if ($result['result'] > 0) {
+                $result = $this->memberTeamModel->insert([
+                    'team_id' => $rawData['team_id'],
+                    'member_id' => $result['id']
+                ]);
+                if ($result > 0) {
+                    $_SESSION['success'] = 'Thêm thành công!';
+                } else {
+                    $_SESSION['error'] = 'Thêm thất bại!';
+                }
                 redirect('members');
             }
         } catch (\Throwable $th) {
@@ -147,8 +161,7 @@ class MemberController extends Controller
     public function showEditMember($memberId)
     {
         $member = $this->memberModel->getById($memberId);
-        $teams = $this->teamModel->getAll();
-        return view('adminViews.members.edit', compact('member', 'teams'));
+        return view('adminViews.members.edit', compact('member'));
     }
 
     public function updateMember()
@@ -176,7 +189,6 @@ class MemberController extends Controller
 
             $data = [
                 'name' => $rawData['name'],
-                'team_id' => $rawData['team_id'],
                 'img' => $img,
             ];
 
@@ -270,6 +282,22 @@ class MemberController extends Controller
                 $_SESSION['success'] = 'Thao tác thành công';
                 redirect($route);
             }
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+        }
+    }
+
+    public function showMemberDetail($memberId)
+    {
+        try {
+            $member = $this->memberModel->getById($memberId);
+            $teamCount = $this->memberTeamModel->countAll(['key' => 'member_id', 'value' => $memberId]);
+            $teams = $this->teamModel->getTeamofMember($memberId);
+            foreach ($teams as &$team) {
+                $team += ['count_member' => $this->memberTeamModel->countAll(['key' => 'team_id', 'value' => $team['id']])];
+            }
+            unset($team);
+            return view('adminViews.members.detail', compact('member', 'teamCount', 'teams'));
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }

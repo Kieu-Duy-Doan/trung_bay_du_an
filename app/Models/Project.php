@@ -9,11 +9,18 @@ class Project extends Model
     public function countAll($options = [])
     {
         $keyword = $options['keyword'] ?? false;
+        $key = $options['key'] ?? false;
+        $value = $options['value'] ?? false;
         $queryBuilder = $this->connection->createQueryBuilder();
         $stmt = $queryBuilder->select('COUNT(*) as total')->from('projects');
         if ($keyword) {
             $stmt->where("name LIKE :value")->setParameter('value', "%$keyword%");
         }
+
+        if ($key !== false && $value !== false) {
+            $stmt->andWhere("$key = :value")->setParameter('value', $value);
+        }
+
         return $stmt->fetchOne();
     }
 
@@ -24,6 +31,8 @@ class Project extends Model
         $order = $options['order'] ?? 'ASC';
         $sort = $options['sort'] ?? 'id';
         $keyword = $options['keyword'] ?? '';
+        $key = $options['key'] ?? false;
+        $value = $options['value'] ?? false;
 
         $queryBuilder = $this->connection->createQueryBuilder();
 
@@ -39,6 +48,10 @@ class Project extends Model
             ]);
         }
 
+        if ($key !== false && $value !== false) {
+            $stmt->andWhere("p.$key = :value")->setParameter('value', $value);
+        }
+
         return $stmt->fetchAllAssociative();
     }
 
@@ -46,7 +59,7 @@ class Project extends Model
     {
 
         $queryBuilder = $this->connection->createQueryBuilder();
-        $stmt = $queryBuilder->select('*')->from('projects')->where('projects.id = :id')->setParameter('id', $id);
+        $stmt = $queryBuilder->select('p.*', 'c.name as category_name')->from('projects', 'p')->leftJoin('p', 'categories', 'c', 'p.category_id = c.id')->where('p.id = :id')->setParameter('id', $id);
         return $stmt->fetchAssociative();
     }
 

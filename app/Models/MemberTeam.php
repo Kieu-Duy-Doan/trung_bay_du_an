@@ -9,10 +9,16 @@ class MemberTeam extends Model
     public function countAll($options = [])
     {
         $keyword = $options['keyword'] ?? false;
+        $key = $options['key'] ?? false;
+        $value = $options['value'] ?? false;
         $queryBuilder = $this->connection->createQueryBuilder();
         $stmt = $queryBuilder->select('COUNT(*) as total')->from('member_team');
         if ($keyword) {
             $stmt->where("name LIKE :value")->setParameter('value', "%$keyword%");
+        }
+
+        if ($key !== false && $value !== false) {
+            $stmt->andWhere("$key = :value")->setParameter('value', $value);
         }
         return $stmt->fetchOne();
     }

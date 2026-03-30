@@ -26,6 +26,18 @@
                 @endif
             </div>
             <div class="mb-3">
+                <label class="form-label">Team phát triển</label>
+                <select class="form-select {{ isset($errors['team_id']) ? 'is-invalid' : '' }}" name="team_id">
+                    <option value="">--Chọn team--</option>
+                    @foreach ($teams as $team)
+                        <option @selected($team['id'] == $project['team_id']) value="{{ $team['id'] }}">{{ $team['name'] }}</option>
+                    @endforeach
+                </select>
+                @if (isset($errors['team_id']))
+                    <div class="invalid-feedback">{{ $errors['team_id'] }}</div>
+                @endif
+            </div>
+            <div class="mb-3">
                 <div class="form-floating">
                     <textarea id="floatingTextarea2" class="form-control {{ isset($errors['description']) ? 'is-invalid' : '' }}"
                         placeholder="Viết mô tả" style="height: 100px" name="description">{{ $project['description'] }}</textarea>
@@ -34,6 +46,10 @@
                         <div class="invalid-feedback">{{ $errors['description'] }}</div>
                     @endif
                 </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Link demo (nếu có)</label>
+                <input type="text" class="form-control" name="link_demo" value="{{ $project['link_demo'] }}">
             </div>
             <div class="mb-3">
                 <label for="formFile" class="form-label">Ảnh dự án</label>
