@@ -399,6 +399,14 @@
     font-weight: 700;
     color: var(--dark-color);
     margin-bottom: 5px;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* số dòng muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 54px;
+    line-height: 27px;
 }
 
 .team-role {
@@ -411,6 +419,14 @@
     color: #64748b;
     font-size: 0.9rem;
     margin-bottom: 20px;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* số dòng muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 54px;
+    line-height: 27px;
 }
 
 .team-social a {

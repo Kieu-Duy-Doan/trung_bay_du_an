@@ -75,8 +75,8 @@ class ContactController extends Controller
             $sort = $_GET['sort'] ?? 'id';
             $order = $_GET['order'] ?? 'ASC';
             $page = $_GET['page'] ?? 1;
-            $key = $_GET['key'] ?? false;
-            $value = $_GET['value'] ?? false;
+            $key = empty($_GET['key']) ? false : $_GET['key'];
+            $value = $_GET['value'] == "" ? false : $_GET['value'];
 
             $totalContacts = $this->contactModel->countAll();
 
@@ -96,8 +96,6 @@ class ContactController extends Controller
                     'value' => $value,
                 ]);
 
-                // debug($value);
-
                 $limit = $_ENV['LIMIT'];
 
                 $totalPage = ceil($totalContacts / $limit);
@@ -112,7 +110,6 @@ class ContactController extends Controller
                     'key' => $key,
                     'value' => $value,
                 ]);
-                // debug($contacts);
                 return view('adminViews.contacts.index', compact('contacts', 'totalPage', 'page', 'sort', 'order', 'keyword', 'key', 'value', 'totalContacts', 'unreadContactsCount', 'readContactsCount'));
             }
 

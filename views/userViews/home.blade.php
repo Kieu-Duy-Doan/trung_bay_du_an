@@ -90,111 +90,29 @@
                     Đội Ngũ <span>Chuyên Gia</span>
                 </h2>
                 <p class="section-subtitle">
-                    Những con người tài năng và nhiệt huyết đứng sau
-                    thành công của TechLab
+                    Những đội nhóm tài năng và nhiệt huyết đứng sau
+                    sản phẩm của xưởng CNTT
                 </p>
             </header>
             <div class="row g-4">
-                <div class="col-lg-3 col-md-6">
-                    <article class="team-card">
-                        <div class="team-avatar"
-                            style="
-                                        background: linear-gradient(
-                                            135deg,
-                                            #667eea,
-                                            #764ba2
-                                        );
-                                    ">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <h3 class="team-name">Nguyễn Văn An</h3>
-                        <p class="team-role">CEO &amp; Founder</p>
-                        <p class="team-bio">
-                            15+ năm kinh nghiệm trong lĩnh vực CNTT và
-                            quản lý doanh nghiệp
-                        </p>
-                        <div class="team-social">
-                            <a href="#" aria-label="LinkedIn của Nguyễn Văn An"><i class="bi bi-linkedin"></i></a>
-                            <a href="#" aria-label="Twitter của Nguyễn Văn An"><i class="bi bi-twitter"></i></a>
-                            <a href="#" aria-label="GitHub của Nguyễn Văn An"><i class="bi bi-github"></i></a>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <article class="team-card">
-                        <div class="team-avatar"
-                            style="
-                                        background: linear-gradient(
-                                            135deg,
-                                            #2563eb,
-                                            #7c3aed
-                                        );
-                                    ">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <h3 class="team-name">Trần Thị Bình</h3>
-                        <p class="team-role">CTO</p>
-                        <p class="team-bio">
-                            Chuyên gia về AI/ML với các công bố quốc tế
-                            uy tín
-                        </p>
-                        <div class="team-social">
-                            <a href="#" aria-label="LinkedIn của Trần Thị Bình"><i class="bi bi-linkedin"></i></a>
-                            <a href="#" aria-label="Twitter của Trần Thị Bình"><i class="bi bi-twitter"></i></a>
-                            <a href="#" aria-label="GitHub của Trần Thị Bình"><i class="bi bi-github"></i></a>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <article class="team-card">
-                        <div class="team-avatar"
-                            style="
-                                        background: linear-gradient(
-                                            135deg,
-                                            #059669,
-                                            #0891b2
-                                        );
-                                    ">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <h3 class="team-name">Lê Minh Cường</h3>
-                        <p class="team-role">Lead Developer</p>
-                        <p class="team-bio">
-                            Full-stack developer với đam mê công nghệ
-                            mới
-                        </p>
-                        <div class="team-social">
-                            <a href="#" aria-label="LinkedIn của Lê Minh Cường"><i class="bi bi-linkedin"></i></a>
-                            <a href="#" aria-label="Twitter của Lê Minh Cường"><i class="bi bi-twitter"></i></a>
-                            <a href="#" aria-label="GitHub của Lê Minh Cường"><i class="bi bi-github"></i></a>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <article class="team-card">
-                        <div class="team-avatar"
-                            style="
-                                        background: linear-gradient(
-                                            135deg,
-                                            #ec4899,
-                                            #f43744
-                                        );
-                                    ">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <h3 class="team-name">Phạm Thùy Dung</h3>
-                        <p class="team-role">UI/UX Designer</p>
-                        <p class="team-bio">
-                            Thiết kế trải nghiệm người dùng xuất sắc và
-                            sáng tạo
-                        </p>
-                        <div class="team-social">
-                            <a href="#" aria-label="LinkedIn của Phạm Thùy Dung"><i class="bi bi-linkedin"></i></a>
-                            <a href="#" aria-label="Dribbble của Phạm Thùy Dung"><i class="bi bi-dribbble"></i></a>
-                            <a href="#" aria-label="Behance của Phạm Thùy Dung"><i class="bi bi-behance"></i></a>
-                        </div>
-                    </article>
-                </div>
+                @foreach ($teams as $team)
+                    <div class="col-lg-3 col-md-6">
+                        <article class="team-card">
+                            <div class="team-avatar"
+                                style="background-image: url({{ route($team['img']) }}); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 50%; width: 120px; height: 120px;">
+                            </div>
+                            <h3 class="team-name">{{ $team['name'] }}</h3>
+                            <p class="team-bio">
+                                {{ $team['description'] }}
+                            </p>
+                            <div class="team-social">
+                                <a href="#" aria-label="LinkedIn của Nguyễn Văn An"><i class="bi bi-linkedin"></i></a>
+                                <a href="#" aria-label="Twitter của Nguyễn Văn An"><i class="bi bi-twitter"></i></a>
+                                <a href="#" aria-label="GitHub của Nguyễn Văn An"><i class="bi bi-github"></i></a>
+                            </div>
+                        </article>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
