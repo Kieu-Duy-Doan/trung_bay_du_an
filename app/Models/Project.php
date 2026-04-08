@@ -77,4 +77,16 @@ class Project extends Model
     {
         return $this->connection->delete('projects', $where);
     }
+
+    function getProjectOfMember($member_id)
+    {
+        $sql = "select * from projects where team_id in (select team_id from member_team where member_id =:memberID)";
+        // $sql = "SELECT DISTINCT p.*
+        //         FROM projects p
+        //         JOIN teams t ON p.team_id = t.id
+        //         JOIN member_team mt ON t.id = mt.team_id
+        //         WHERE mt.member_id = :memberID;";
+        $stmt = $this->connection->executeQuery($sql, ['memberID' => $member_id]);
+        return $stmt->fetchAllAssociative();
+    }
 }

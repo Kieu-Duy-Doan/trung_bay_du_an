@@ -23,17 +23,6 @@
                         <div class="content-body">
                             <div class="mb-4">
                                 <h2 class="section-title">
-                                    <i class="fa-solid fa-file-lines"></i>
-                                    Mô tả dự án
-                                </h2>
-                                <div class="description-box">
-                                    <p>
-                                        {{ $project['description'] }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <h2 class="section-title">
                                     <i class="fa-solid fa-circle-info"></i>
                                     Thông tin dự án
                                 </h2>
@@ -82,6 +71,17 @@
                                             </div>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <h2 class="section-title">
+                                    <i class="fa-solid fa-file-lines"></i>
+                                    Mô tả dự án
+                                </h2>
+                                <div class="description-box">
+                                    <p>
+                                        {{ $project['description'] }}
+                                    </p>
                                 </div>
                             </div>
                             <div>

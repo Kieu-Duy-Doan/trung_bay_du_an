@@ -29,7 +29,7 @@
                             <div class="stat-label">Nhóm</div>
                         </div>
                         <div class="stat-box border-start border-end">
-                            <div class="stat-num">12</div>
+                            <div class="stat-num">{{ count($projects) }}</div>
                             <div class="stat-label">Dự án</div>
                         </div>
                     </div>
@@ -37,48 +37,28 @@
                 <!-- Info Card -->
                 <div class="info-card p-3 mt-4">
                     <h6 class="fw-bold mb-3" style=" color: var(--dark-color); font-size: 0.95rem; ">
-                        <i class="fas fa-circle-info text-primary me-2"></i>Thông tin liên hệ
+                        <i class="fas fa-circle-info text-primary me-2"></i>Dự án tham gia
                     </h6>
-                    <div class="info-row">
-                        <div class="info-icon">
-                            <i class="fas fa-envelope"></i>
+                    @if (count($projects) > 0)
+                        @foreach ($projects as $project)
+                            <a class="info-row">
+                                <div class="info-icon"
+                                    style="background-image: url({{ route($project['img']) }}); background-size: cover; background-position: center; width: 50px; height: 50px; border-radius: 50%;">
+                                </div>
+                                <div>
+                                    <div class="info-label">{{ $project['name'] }}</div>
+                                    <div class="info-value">
+                                        {{ $project['description'] }}
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
+                    @else
+                        <div class="empty-state">
+                            <i class="fas fa-folder-open"></i>
+                            <p>Chưa tham gia dự án nào</p>
                         </div>
-                        <div>
-                            <div class="info-label">Email</div>
-                            <div class="info-value">
-                                kieuduydoan2k2@gmail.com
-                            </div>
-                        </div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div>
-                            <div class="info-label">Điện thoại</div>
-                            <div class="info-value">0398041418</div>
-                        </div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-icon">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <div>
-                            <div class="info-label">Phòng ban</div>
-                            <div class="info-value">
-                                Phát triển website
-                            </div>
-                        </div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-icon">
-                            <i class="fas fa-calendar"></i>
-                        </div>
-                        <div>
-                            <div class="info-label">Ngày tham gia</div>
-                            <div class="info-value">21/02/2002</div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
             <!-- Right Column: Team List -->

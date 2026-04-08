@@ -5,6 +5,7 @@ namespace App\Controllers\Admins;
 use App\Controller;
 use App\Models\Member;
 use App\Models\MemberTeam;
+use App\Models\Project;
 use App\Models\Team;
 use Exception;
 
@@ -13,6 +14,7 @@ class MemberController extends Controller
     private $memberModel;
     private $teamModel;
     private $memberTeamModel;
+    private $projectModel;
 
     public function __construct()
     {
@@ -20,16 +22,19 @@ class MemberController extends Controller
         $this->memberModel = new Member();
         $this->teamModel = new Team();
         $this->memberTeamModel = new MemberTeam();
+        $this->projectModel = new Project();
     }
 
     private function validateData($data)
     {
         $rules = [
             'name' => 'required',
+            'team_id' => 'required',
         ];
 
         $this->validator->setMessages([
             'name:required' => 'Vui lòng nhập tên',
+            'team_id:required' => 'Vui lòng chọn nhóm',
         ]);
 
         $errors = $this->validate($this->validator, $data, $rules);
@@ -40,17 +45,11 @@ class MemberController extends Controller
     private function getAndCreateFormData()
     {
         $name = htmlspecialchars($_POST['name']);
-        if (isset($_POST['team_id'])) {
-            $team_id = htmlspecialchars($_POST['team_id']);
-
-            return [
-                'name' => $name,
-                'team_id' => $team_id,
-            ];
-        }
+        $team_id = htmlspecialchars($_POST['team_id']);
 
         return [
             'name' => $name,
+            'team_id' => $team_id,
         ];
     }
 
@@ -124,7 +123,8 @@ class MemberController extends Controller
             $errors = $this->validateData($rawData);
 
             if (count($errors) > 0) {
-                return view('adminViews.members.create', compact('errors'));
+                $teams = $this->teamModel->getAll();
+                return view('adminViews.members.create', compact('errors', 'teams'));
             }
 
             if (is_upload('img')) {
@@ -297,7 +297,8 @@ class MemberController extends Controller
                 $team += ['count_member' => $this->memberTeamModel->countAll(['key' => 'team_id', 'value' => $team['id']])];
             }
             unset($team);
-            return view('adminViews.members.detail', compact('member', 'teamCount', 'teams'));
+            $projects = $this->projectModel->getProjectOfMember($memberId);
+            return view('adminViews.members.detail', compact('member', 'teamCount', 'teams', 'projects'));
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }

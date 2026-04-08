@@ -278,12 +278,22 @@
     font-size: 0.78rem;
     color: #94a3b8;
     font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* số dòng muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 16px;
 }
 
 .info-row .info-value {
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--dark-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* số dòng muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 16px;
 }
 
 .empty-state {
